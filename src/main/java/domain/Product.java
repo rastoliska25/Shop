@@ -30,7 +30,6 @@ public class Product {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.createdAt = createdAt;
         this.available = available;
         this.createdAt = Timestamp.from(Instant.now());
     }
