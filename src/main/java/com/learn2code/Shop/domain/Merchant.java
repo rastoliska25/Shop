@@ -13,14 +13,14 @@ public class Merchant {
     @NonNull
     private String email;
     @NonNull
-    private String adress;
+    private String address;
 
     public Merchant() {}
 
-    public Merchant(@NonNull String name, @NonNull String email, @NonNull String adress) {
+    public Merchant(@NonNull String name, @NonNull String email, @NonNull String address) {
         this.name = name;
         this.email = email;
-        this.adress = adress;
+        this.address = address;
     }
 
     @Nullable
@@ -51,12 +51,12 @@ public class Merchant {
     }
 
     @NonNull
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(@NonNull String adress) {
-        this.adress = adress;
+    public void setAddress(@NonNull String address) {
+        this.address = address;
     }
 
     @Override
@@ -64,11 +64,11 @@ public class Merchant {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Merchant merchant = (Merchant) o;
-        return Objects.equals(id, merchant.id) && name.equals(merchant.name) && email.equals(merchant.email) && adress.equals(merchant.adress);
+        return Objects.equals(id, merchant.id) && name.equals(merchant.name) && email.equals(merchant.email) && address.equals(merchant.address);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, adress);
+        return Objects.hash(id, name, email, address);
     }
 }

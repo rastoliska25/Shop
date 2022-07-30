@@ -1,5 +1,6 @@
 package com.learn2code.Shop;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -7,7 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ShopApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void test(){
+		int a = 2;
+		int b = 3;
+		Assertions.assertEquals(5,a+b);
 	}
 
 }
