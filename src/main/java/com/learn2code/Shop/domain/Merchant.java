@@ -1,4 +1,4 @@
-package domain;
+package com.learn2code.Shop.domain;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
