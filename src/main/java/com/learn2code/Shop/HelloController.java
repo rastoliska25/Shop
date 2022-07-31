@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping
+    @GetMapping("sayHello") //definicia endpointu - na adrese http://localhost:8080/sayHello nám ukaže na stranke "hello world"
     public String helloWorld() {
         return "hello world";
     }
