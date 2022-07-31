@@ -16,7 +16,7 @@ import java.sql.Types;
 import java.util.List;
 
 @Component  //beana, aby sme mohli použiť objekt/komponent v services
-public class CustomerRepository { //repository je najspodnejšia vrstva, ktorá komunikuje s DB pomocou jdbc template
+public class CustomerRepository { //repository je najspodnejšia vrstva, ktorá komunikuje s DB pomocou jdbc template, nestará sa inak o logiku - čisto len komunikácia s DB
     private final JdbcTemplate jdbcTemplate;
     private final CUstomerRowMapper cUstomerRowMapper = new CUstomerRowMapper();
 
