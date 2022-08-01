@@ -1,7 +1,5 @@
 package com.learn2code.Shop.db.repository;
 
-import com.learn2code.Shop.db.service.impl.UserDAOService;
-import com.learn2code.Shop.db.service.impl.UserRepository;
 import com.learn2code.Shop.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class UserRepositoryCommandLineRunner implements CommandLineRunner {
 
        private static final Logger log =

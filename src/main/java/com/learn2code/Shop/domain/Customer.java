@@ -1,110 +1,68 @@
 package com.learn2code.Shop.domain;
 
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import java.util.Objects;
-
+@Entity
 public class Customer {
-    @Nullable
+
+    @Id
+    @GeneratedValue
     private Integer id;
-    @NonNull
     private String name;
-    @NonNull
+
     private String Surname;
-    @NonNull
+
     private String email;
-    @NonNull
+
     private String address;
-    @Nullable
+
     private Integer age;
-    @Nullable
+
     private String phoneNumber;
 
-    public Customer(){}
-
-    public Customer(@NonNull String name, @NonNull String surname, @NonNull String email, @NonNull String address, @Nullable Integer age, @Nullable String phoneNumber) {
-        this.name = name;
-        Surname = surname;
-        this.email = email;
-        this.address = address;
-        this.age = age;
-        this.phoneNumber = phoneNumber;
+    public Customer() {
     }
 
-    @Nullable
     public Integer getId() {
         return id;
     }
 
-    public void setId(@Nullable Integer id) {
-        this.id = id;
-    }
-
-    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(@NonNull String name) {
-        this.name = name;
-    }
-
-    @NonNull
     public String getSurname() {
         return Surname;
     }
 
-    public void setSurname(@NonNull String surname) {
-        Surname = surname;
-    }
-
-    @NonNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(@NonNull String email) {
-        this.email = email;
-    }
-
-    @NonNull
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(@NonNull String address) {
-        this.address = address;
-    }
-
-    @Nullable
     public Integer getAge() {
         return age;
     }
 
-    public void setAge(@Nullable Integer age) {
-        this.age = age;
-    }
-
-    @Nullable
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(@Nullable String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && name.equals(customer.name) && Surname.equals(customer.Surname) && email.equals(customer.email) && address.equals(customer.address) && Objects.equals(age, customer.age) && Objects.equals(phoneNumber, customer.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, Surname, email, address, age, phoneNumber);
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", Surname='" + Surname + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", age=" + age +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

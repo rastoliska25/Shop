@@ -1,26 +1,28 @@
 package com.learn2code.Shop.controller;
 
-import com.learn2code.Shop.db.service.api.CustomerService;
+import com.learn2code.Shop.db.repository.CustomerRepository;
 import com.learn2code.Shop.domain.Customer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("customer" )
+@RequestMapping("customer")
 public class CustomerController {
 
-    private final CustomerService customerService;
+    private final CustomerRepository customerRepository;
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public CustomerController(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     @PostMapping
-    public ResponseEntity add(@RequestBody Customer customer){ //vytiahne Body do objektu
-        Integer id = customerService.add(customer);
+    public ResponseEntity add(@RequestBody Customer customer) { //vytiahne Body do objektu
+        customerRepository.save(customer);
+        Integer id = customer.getId();
         if (id != null) {
             return new ResponseEntity<>(id, HttpStatus.CREATED);
         }
@@ -29,16 +31,16 @@ public class CustomerController {
 
     @GetMapping("{id}")
     public ResponseEntity get(@PathVariable("id") int id) {
-        Customer customer = customerService.get(id);
-        if (customer == null) { // ak nenajde zakaznika v db, vracia null a status not found
+        Optional<Customer> customerWithId = customerRepository.findById(id);
+        if (customerWithId.isEmpty()) { // ak nenajde usera v db, vracia null a status not found
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        return new ResponseEntity<>(customerWithId, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity getAll() {
-        List<Customer> customerList = customerService.getCustomers();
-        return new ResponseEntity<>(customerList, HttpStatus.OK); //vracia customerlist a status
+        List<Customer> customers = customerRepository.findAll();
+        return new ResponseEntity<>(customers, HttpStatus.OK); //vracia customerlist a status
     }
 }

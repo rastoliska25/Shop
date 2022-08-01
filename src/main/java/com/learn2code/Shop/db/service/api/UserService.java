@@ -5,8 +5,7 @@ import com.learn2code.Shop.domain.User;
 import org.springframework.lang.Nullable;
 
 public interface UserService {
-
-
+    
     @Nullable
     Customer get(int id);
 
