@@ -13,7 +13,8 @@ public class User {
     private String name;
     private String role;
 
-    protected User(){}
+    protected User() {
+    }
 
     public User(String name, String role) {
         this.name = name;

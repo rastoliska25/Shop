@@ -1,16 +1,13 @@
 package com.learn2code.Shop.db.service.api;
 
 import com.learn2code.Shop.domain.Customer;
-import org.springframework.lang.Nullable;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface CustomerService {
-    List<Customer> getCustomers();
 
-    @Nullable
-    Customer get(int id);
+    public ResponseEntity add(Customer customer);
 
-    @Nullable
-    Integer add(Customer customer); //returns generated id
+    public ResponseEntity get(int id);
+
+    public ResponseEntity getAll();
 }

@@ -1,6 +1,7 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.CustomerRepository;
+import com.learn2code.Shop.db.service.api.CustomerService;
 import com.learn2code.Shop.domain.Customer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("customer")
-public class CustomerController {
+public class CustomerController implements CustomerService {
 
     private final CustomerRepository customerRepository;
 

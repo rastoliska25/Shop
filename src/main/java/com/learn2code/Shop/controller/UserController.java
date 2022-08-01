@@ -1,6 +1,7 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.UserRepository;
+import com.learn2code.Shop.db.service.api.UserService;
 import com.learn2code.Shop.domain.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
-public class UserController {
+public class UserController implements UserService {
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
@@ -42,4 +43,5 @@ public class UserController {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK); //vracia userlist a status
     }
+
 }

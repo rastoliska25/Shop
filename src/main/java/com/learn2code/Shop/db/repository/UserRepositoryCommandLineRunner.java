@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 //@Component
 public class UserRepositoryCommandLineRunner implements CommandLineRunner {
 
-       private static final Logger log =
+    private static final Logger log =
             LoggerFactory.getLogger(UserRepositoryCommandLineRunner.class);
 
     @Autowired
