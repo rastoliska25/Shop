@@ -9,7 +9,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private long id;
+    private int id;
     private String name;
     private String role;
 
@@ -20,7 +20,7 @@ public class User {
         this.role = role;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
