@@ -88,15 +88,12 @@
 
 	<profiles>
 		<profile>
-			<id>test</id>
+			<id>prod</id>
 			<build>
 				<filters>
-					<filter>src/main/resources/application-test.properties</filter>
+					<filter>src/main/resources/prod.properties</filter>
 				</filters>
 			</build>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 		</profile>
 	</profiles>
 

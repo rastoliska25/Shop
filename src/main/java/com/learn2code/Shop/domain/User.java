@@ -2,7 +2,7 @@ package com.learn2code.Shop.domain;
 
 import javax.persistence.*;
 
-@Table(name = "user")
+@Table(name = "users")
 @Entity
 public class User {
 
