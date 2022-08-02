@@ -1,25 +1,26 @@
 package com.learn2code.Shop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Table(name = "customer")
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "name")
     private String name;
-
-    private String Surname;
-
+    @Column(name = "surname")
+    private String surname;
+    @Column(name = "email")
     private String email;
-
+    @Column(name = "address")
     private String address;
-
+    @Column(name = "age")
     private Integer age;
-
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     public Customer() {
@@ -34,7 +35,7 @@ public class Customer {
     }
 
     public String getSurname() {
-        return Surname;
+        return surname;
     }
 
     public String getEmail() {
@@ -58,7 +59,7 @@ public class Customer {
         return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", Surname='" + Surname + '\'' +
+                ", Surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
                 ", age=" + age +

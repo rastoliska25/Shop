@@ -1,27 +1,27 @@
 package com.learn2code.Shop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Table(name = "product")
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private Integer id;
-
+    @Column(name = "merchant_id")
     private int merchantId;
-
+    @Column(name = "name")
     private String name;
-
+    @Column(name = "description")
     private String description;
-
+    @Column(name = "price")
     private double price;
-
+    @Column(name = "created_at")
     private Timestamp createdAt;
-
+    @Column(name = "available")
     private int available;
 
     public Product() {
