@@ -9,10 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication()
-//@EnableJpaRepositories("com.learn2code.Shop.*")
-@ComponentScan(basePackages = { "com.learn2code.Shop.*" })
-@EntityScan("com.learn2code.Shop.*")
-@Configuration
 public class ShopApplication {
 
 	public static void main(String[] args) {
