@@ -1,16 +1,18 @@
 package com.learn2code.Shop.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Table(name = "user")
 @Entity
 public class User {
 
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "role")
     private String role;
 
     protected User() {
