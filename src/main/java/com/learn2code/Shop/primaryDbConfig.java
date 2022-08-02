@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-@Profile("prod")
+@Profile({"prod","default"})
 @ComponentScan(basePackages = {"com.learn2code.Shop.*"})
 @Configuration
 @EnableTransactionManagement
@@ -28,7 +28,7 @@ import javax.sql.DataSource;
 public class primaryDbConfig {
 
     @Primary
-    @Profile("prod")
+    @Profile({"prod","default"})
     @Bean(name = "DataSource")
     @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
