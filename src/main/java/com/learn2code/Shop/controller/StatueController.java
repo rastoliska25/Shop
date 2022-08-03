@@ -3,6 +3,7 @@ package com.learn2code.Shop.controller;
 import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
+import com.learn2code.Shop.domain.StatueType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +44,10 @@ public class StatueController implements StatueService {
     public ResponseEntity getAll() {
         List<Statue> statues = statueRepository.findAll();
         return new ResponseEntity<>(statues, HttpStatus.OK); //vracia statuelist a status
+    }
+
+    @GetMapping("/filterName/{name}")
+    public List<Statue> getJoinInformation(@PathVariable("name") String name) {
+        return statueRepository.getJoinInformation(name);
     }
 }
