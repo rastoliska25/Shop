@@ -44,5 +44,4 @@ public class ProductController implements ProductService {
         List<Product> products = productRepository.findAll();
         return new ResponseEntity<>(products, HttpStatus.OK); //vracia productlist a status
     }
-
 }
