@@ -1,7 +1,6 @@
 package com.learn2code.Shop.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Table(name = "statues")
 @Entity

@@ -3,7 +3,6 @@ package com.learn2code.Shop.controller;
 import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
-import com.learn2code.Shop.domain.StatueType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,7 +46,13 @@ public class StatueController implements StatueService {
     }
 
     @GetMapping("/filterName/{name}")
-    public List<Statue> getJoinInformation(@PathVariable("name") String name) {
-        return statueRepository.getJoinInformation(name);
+    public List<Statue> getInformation(@PathVariable("name") String name) {
+        return statueRepository.getInformation(name);
     }
+
+    @GetMapping("/loadSecuring/{loadSecuring}")
+    public List<Statue> getJoinInformation(@PathVariable("loadSecuring") Integer loadSecuring) {
+        return statueRepository.getJoinInformation(loadSecuring);
+    }
+
 }

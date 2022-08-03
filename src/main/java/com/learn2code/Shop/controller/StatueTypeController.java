@@ -2,14 +2,11 @@ package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.StatueTypeRepository;
 import com.learn2code.Shop.db.service.api.StatueTypeService;
-import com.learn2code.Shop.domain.Statue;
 import com.learn2code.Shop.domain.StatueType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +45,8 @@ public class StatueTypeController implements StatueTypeService {
         return new ResponseEntity<>(statueTypes, HttpStatus.OK); //vracia statueTypelist a status
     }
 
-    @GetMapping("/typeId")
-    public List<StatueType> getJoinInformation(){
+    @GetMapping("/loadSecuring")
+    public List<StatueType> getJoinInformation() {
         return statueTypeRepository.getJoinInformation();
     }
 

@@ -3,7 +3,6 @@ package com.learn2code.Shop.controller;
 import com.learn2code.Shop.db.repository.CustomerRepository;
 import com.learn2code.Shop.db.service.api.CustomerService;
 import com.learn2code.Shop.domain.Customer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

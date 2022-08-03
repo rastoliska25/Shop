@@ -20,11 +20,12 @@ public class StatueType {
     @Column(name = "load_securing")
     private Byte loadSecuring;
 
-    @OneToMany(targetEntity =  Statue.class, cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Statue.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id", referencedColumnName = "id")
     private List<Statue> statuesList;
 
-    public StatueType() {}
+    public StatueType() {
+    }
 
     public Integer getId() {
         return id;
