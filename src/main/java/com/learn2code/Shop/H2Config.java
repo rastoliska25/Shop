@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-@Profile({"prod","default"})
+@Profile("test")
 @ComponentScan(basePackages = {"com.learn2code.Shop.*"})
 @Configuration
 @EnableTransactionManagement
@@ -25,12 +25,12 @@ import javax.sql.DataSource;
         entityManagerFactoryRef = "EntityManagerFactory",
         transactionManagerRef = "TransactionManager"
 )
-public class primaryDbConfig {
+public class H2Config {
 
     @Primary
-    @Profile({"prod","default"})
+    @Profile("test")
     @Bean(name = "DataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource2")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
