@@ -1,6 +1,7 @@
 package com.learn2code.Shop.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Table(name = "statue_type")
 @Entity
@@ -17,7 +18,11 @@ public class StatueType {
     private String label;
 
     @Column(name = "load_securing")
-    private boolean loadSecuring;
+    private Byte loadSecuring;
+
+    @OneToMany(targetEntity =  Statue.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "type_id", referencedColumnName = "id")
+    private List<Statue> statuesList;
 
     public StatueType() {}
 
@@ -33,7 +38,7 @@ public class StatueType {
         return label;
     }
 
-    public boolean isLoadSecuring() {
+    public Byte getLoadSecuring() {
         return loadSecuring;
     }
 

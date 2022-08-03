@@ -23,12 +23,6 @@ public class AuthenticationResource {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
-    /*
-    @RequestMapping({ "/hello" })
-    public String firstPage() {
-        return "Hello World";
-    }*/
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
