@@ -55,4 +55,8 @@ public class StatueController implements StatueService {
         return statueRepository.getJoinInformation(loadSecuring);
     }
 
+    @GetMapping("/findByStatue/{firstName}")
+    public List<Statue> findByName(@PathVariable("firstName") String firstName) {
+        return statueRepository.findByName(firstName);
+    }
 }

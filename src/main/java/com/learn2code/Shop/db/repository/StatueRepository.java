@@ -15,4 +15,6 @@ public interface StatueRepository extends JpaRepository<Statue, Integer> {
     @Query(value = "select * from statues s LEFT JOIN statue_type st ON st.id = s.type_id where st.load_securing = :loadSecuring", nativeQuery = true)
     public List<Statue> getJoinInformation(@Param("loadSecuring") Integer loadSecuring);
 
+
+    public List<Statue> findByName(String name); //JPA sa postará o vytvorenie query (select * from statues where name like "xy");
 }
