@@ -23,11 +23,14 @@ public class Truck {
     @Column(name = "transport_height")
     private Integer transportHeight;
 
+    @Column(name = "transport_weight")
+    private Integer transportWeight;
+
     @Column(name = "average_consumption")
     private Float averageConsumption;
 
     @Column(name = "load_securing")
-    private boolean loadSecuring;
+    private Byte loadSecuring;
 
     public Truck() {
     }
@@ -56,8 +59,12 @@ public class Truck {
         return averageConsumption;
     }
 
-    public boolean isLoadSecuring() {
+    public Byte getLoadSecuring() {
         return loadSecuring;
+    }
+
+    public Integer getTransportWeight() {
+        return transportWeight;
     }
 
     @Override
@@ -68,9 +75,9 @@ public class Truck {
                 ", transportLength=" + transportLength +
                 ", transportWidth=" + transportWidth +
                 ", transportHeight=" + transportHeight +
+                ", transportWeight=" + transportWeight +
                 ", averageConsumption=" + averageConsumption +
                 ", loadSecuring=" + loadSecuring +
                 '}';
     }
-
 }
