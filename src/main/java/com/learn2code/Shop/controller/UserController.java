@@ -43,7 +43,7 @@ public class UserController implements UserService {
         return new ResponseEntity<>(users, HttpStatus.OK); //vracia userlist a status
     }
 
-    @PostMapping("/saveUsers")
+    @PostMapping("/saveUsersTest")
     public ResponseEntity<String> insertUsers() {
         List<User> users = new ArrayList<>();
         users.add(new User("James", "Gosling"));
@@ -54,11 +54,12 @@ public class UserController implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/saveUsersTest")
+    @PostMapping("/saveUsers")
     public ResponseEntity<String> saveUsersTest(@RequestBody List<User> users){
         userRepository.saveAll(users);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 }

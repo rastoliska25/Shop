@@ -3,6 +3,7 @@ package com.learn2code.Shop.controller;
 import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
+import com.learn2code.Shop.domain.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,5 +59,11 @@ public class StatueController implements StatueService {
     @GetMapping("/findByStatue/{firstName}")
     public List<Statue> findByName(@PathVariable("firstName") String firstName) {
         return statueRepository.findByName(firstName);
+    }
+
+    @PostMapping("/saveStatues")
+    public ResponseEntity<String> saveUsersTest(@RequestBody List<Statue> statues){
+        statueRepository.saveAll(statues);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
