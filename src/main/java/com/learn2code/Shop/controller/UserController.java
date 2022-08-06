@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +25,7 @@ public class UserController implements UserService {
     public ResponseEntity add(@RequestBody User user) { //vytiahne Body do objektu
         userRepository.save(user);
         Integer id = user.getId();
-        if (id != null) {
-            return new ResponseEntity<>(id, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); //ak sa nepodarí vytvoriť
+        return new ResponseEntity<>(id, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
@@ -43,5 +42,23 @@ public class UserController implements UserService {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK); //vracia userlist a status
     }
+
+    @PostMapping("/saveUsers")
+    public ResponseEntity<String> insertUsers() {
+        List<User> users = new ArrayList<>();
+        users.add(new User("James", "Gosling"));
+        users.add(new User("Doug", "Lea"));
+        users.add(new User("Martin", "Fowler"));
+        users.add(new User("Brian", "Goetz"));
+        userRepository.saveAll(users);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/saveUsersTest")
+    public ResponseEntity<String> saveUsersTest(@RequestBody List<User> users){
+        userRepository.saveAll(users);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
