@@ -1,5 +1,6 @@
 package com.learn2code.Shop;
 
+import com.learn2code.Shop.db.service.Consumer;
 import com.learn2code.Shop.domain.User;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaProducerConfig {
+public class KafkaConfig {
 
     @Bean
     public ProducerFactory<String, User> producerFactory()
@@ -41,7 +42,7 @@ public class KafkaProducerConfig {
 
     @Bean
     public ConsumerFactory<String,User> consumerFactory(KafkaProperties kafkaProperties){
-        return new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties(),new StringDeserializer(),new JsonDeserializer<>(User.class));
+        Map<String,Object> config = new HashMap<>();return new DefaultKafkaConsumerFactory<>(kafkaProperties.buildConsumerProperties(),new StringDeserializer(),new JsonDeserializer<>(User.class));
     }
 
     @Bean

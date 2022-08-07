@@ -1,7 +1,6 @@
 package com.learn2code.Shop.domain;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Table(name = "users")
 @Entity
@@ -10,7 +9,7 @@ public class User {
     @Id
     @GeneratedValue
     @Column(name = "id")
-    private int id;
+    private Integer id;
     @Column(name = "name")
     private String name;
     @Column(name = "role")
@@ -24,7 +23,7 @@ public class User {
         this.role = role;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -39,8 +38,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

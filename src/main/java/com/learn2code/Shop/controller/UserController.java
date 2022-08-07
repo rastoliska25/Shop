@@ -1,8 +1,6 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.UserRepository;
-import com.learn2code.Shop.db.service.Consumer;
-import com.learn2code.Shop.db.service.Producer;
 import com.learn2code.Shop.db.service.api.UserService;
 import com.learn2code.Shop.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,38 +61,18 @@ public class UserController implements UserService {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-
-    //list userov
-    /*
     @Autowired
-    KafkaTemplate<String,List<User>> kafkaTemplate;
+    KafkaTemplate<String, User> kafkaTemplate;
 
     private static final String TOPIC = "demo";
 
-    @PostMapping("/publish")
-    public String publishMessage(@RequestBody List<User> users)
-    {
-        kafkaTemplate.send(TOPIC, users);
-        System.out.println("published user" + users);
-        return "Published Successfully!";
+    @PostMapping("/publishUsers")
+    public String publishMessage(@RequestBody List<User> users) {
+
+        for (User user : users) {
+            kafkaTemplate.send(TOPIC, user);
+            System.out.println("published user " + user);
+        }
+        return "Published Successfully: " + users;
     }
-    */
-
-    @Autowired
-    KafkaTemplate<String,User> kafkaTemplate;
-
-    private static final String TOPIC = "demo";
-
-    @PostMapping("/publish")
-    public String publishMessage(@RequestBody User user)
-    {
-        kafkaTemplate.send(TOPIC, user);
-        System.out.println("published user" + user);
-        return "Published Successfully!";
-    }
-
-
-
-
 }
