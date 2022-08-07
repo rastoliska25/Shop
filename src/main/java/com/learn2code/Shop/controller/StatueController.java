@@ -4,8 +4,10 @@ import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
 import com.learn2code.Shop.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,8 +64,24 @@ public class StatueController implements StatueService {
     }
 
     @PostMapping("/saveStatues")
-    public ResponseEntity<String> saveUsersTest(@RequestBody List<Statue> statues){
+    public ResponseEntity<String> saveUsersTest(@RequestBody List<Statue> statues) {
         statueRepository.saveAll(statues);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //produkovanie dát do kafky
+    @Autowired
+    KafkaTemplate<String, Statue> kafkaTemplate;
+
+    private static final String TOPIC = "demo";
+
+    @PostMapping("/publishStatues")
+    public String publishMessage(@RequestBody List<Statue> statues) {
+
+        for (Statue statue : statues) {
+            kafkaTemplate.send(TOPIC, statue);
+            System.out.println("published statue " + statue);
+        }
+        return "Published Successfully: " + statues;
     }
 }

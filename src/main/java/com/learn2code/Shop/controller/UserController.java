@@ -60,19 +60,4 @@ public class UserController implements UserService {
         userRepository.saveAll(users);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @Autowired
-    KafkaTemplate<String, User> kafkaTemplate;
-
-    private static final String TOPIC = "demo";
-
-    @PostMapping("/publishUsers")
-    public String publishMessage(@RequestBody List<User> users) {
-
-        for (User user : users) {
-            kafkaTemplate.send(TOPIC, user);
-            System.out.println("published user " + user);
-        }
-        return "Published Successfully: " + users;
-    }
 }
