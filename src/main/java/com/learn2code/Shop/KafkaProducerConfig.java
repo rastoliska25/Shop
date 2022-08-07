@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-public class KafkaConfig {
+public class KafkaProducerConfig {
 
-    @Bean
+    //@Bean
     public ProducerFactory<String, User> producerFactory()
     {
         Map<String,Object> config = new HashMap<>();
@@ -27,19 +27,7 @@ public class KafkaConfig {
         return  new DefaultKafkaProducerFactory<>(config);
     }
 
-    @Bean
-    public ConsumerFactory<String, User> consumerFactory()
-    {
-        Map<String,Object> config = new HashMap<>();
-
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
-        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-
-        return  new DefaultKafkaConsumerFactory<>(config);
-    }
-
-    @Bean
+    //@Bean
     public KafkaTemplate kafkaTemplate()
     {
         return  new KafkaTemplate<>(producerFactory());

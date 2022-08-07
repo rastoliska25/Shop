@@ -66,22 +66,21 @@ public class UserController implements UserService {
 
 
 
-
-
-
-    //kafka test
+    //list userov
     /*
-    public static final String topic = "demo";
     @Autowired
-    private KafkaTemplate<String, User> kafkaTemp;
-    @PostMapping("/kafka")
-    public ResponseEntity<String> saveKafka(@RequestBody User users) {
-        System.out.println("Publishing to topic "+topic);
-        this.kafkaTemp.send(topic, users);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    KafkaTemplate<String,List<User>> kafkaTemplate;
 
-     */
+    private static final String TOPIC = "demo";
+
+    @PostMapping("/publish")
+    public String publishMessage(@RequestBody List<User> users)
+    {
+        kafkaTemplate.send(TOPIC, users);
+        System.out.println("published user" + users);
+        return "Published Successfully!";
+    }
+    */
 
     @Autowired
     KafkaTemplate<String,User> kafkaTemplate;
@@ -95,7 +94,6 @@ public class UserController implements UserService {
         System.out.println("published user" + user);
         return "Published Successfully!";
     }
-
 
 
 
