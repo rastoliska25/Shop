@@ -7,7 +7,9 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +25,16 @@ public class StatuesConsumer {
 
     private final StatueRepository statueRepository;
 
-    public StatuesConsumer(StatueRepository statueRepository) {
+    private final KafkaTemplate<String, Statue> kafkaTemplate;
+
+    private static final String TOPIC = "demo";
+
+
+    public StatuesConsumer(StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate) {
         this.statueRepository = statueRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
+
 
     public void consumeStatues() {
         Properties props = new Properties();
@@ -39,24 +48,33 @@ public class StatuesConsumer {
 
         consumer.subscribe(Collections.singletonList("demo")); //naviazanie na topic
 
+
+        List<Statue> statues = new ArrayList<>();
+        List<Statue> statuesToProduceBack = new ArrayList<>();
         try {
             int x = 0;
             ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(100));
 
             for (ConsumerRecord<String, Statue> record : records) {
                 System.out.println("consumed through poll:" + record.value());
-
-                if (record.value().getWeight() < 500) {
-                    record.value().setTruckId(500);
-                    statueRepository.save(record.value());
+                if (record.value().getWeight() < 250) {
+                    statues.add(record.value());
                 } else {
-                    record.value().setTruckId(1);
-                    statueRepository.save(record.value());
+                    statuesToProduceBack.add(record.value());
                 }
             }
         } finally {
             consumer.close();
         }
+
+        for (Statue statue : statuesToProduceBack) {
+            kafkaTemplate.send(TOPIC, statue);
+            System.out.println("published statue " + statue);
+        }
+
+        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(statueRepository, statues);
+        truckFillCalculation.calculate();
+
     }
 }
 

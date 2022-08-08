@@ -83,12 +83,13 @@ public class StatueController implements StatueService {
             System.out.println("published statue " + statue);
         }
 
-        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository);
+        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository, kafkaTemplate);
         statuesConsumer.consumeStatues();
 
         return "Published Successfully: " + statues;
     }
 
+    /*
     @PostMapping("/consumeStatues") //consumovanie na request
     public String consumeMessage() {
 
@@ -96,4 +97,6 @@ public class StatueController implements StatueService {
         statuesConsumer.consumeStatues();
         return "Consumed Successfully!";
     }
+    */
+
 }
