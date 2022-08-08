@@ -45,7 +45,14 @@ public class StatuesConsumer {
 
             for (ConsumerRecord<String, Statue> record : records) {
                 System.out.println("consumed through poll:" + record.value());
-                statueRepository.save(record.value());
+
+                if (record.value().getWeight() < 500) {
+                    record.value().setTruckId(500);
+                    statueRepository.save(record.value());
+                } else {
+                    record.value().setTruckId(1);
+                    statueRepository.save(record.value());
+                }
             }
         } finally {
             consumer.close();

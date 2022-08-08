@@ -29,6 +29,9 @@ public class Statue {
     @Column(name = "height")
     private Long height;
 
+    @Column(name = "truck_id")
+    private Integer truckId;
+
     public Statue() {
     }
 
@@ -58,6 +61,14 @@ public class Statue {
 
     public Long getHeight() {
         return height;
+    }
+
+    public Integer getTruckId() {
+        return truckId;
+    }
+
+    public void setTruckId(Integer truckId) {
+        this.truckId = truckId;
     }
 
     @Override
