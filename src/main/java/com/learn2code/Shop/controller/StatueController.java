@@ -1,9 +1,9 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.StatueRepository;
+import com.learn2code.Shop.db.service.StatuesConsumer;
 import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
-import com.learn2code.Shop.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -82,6 +82,20 @@ public class StatueController implements StatueService {
             kafkaTemplate.send(TOPIC, statue);
             System.out.println("published statue " + statue);
         }
+
+        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository);
+        statuesConsumer.consumeStatues();
+
         return "Published Successfully: " + statues;
     }
+
+    @PostMapping("/consumeStatues") //consumovanie na request
+    public String consumeMessage() {
+
+        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository);
+        statuesConsumer.consumeStatues();
+        return "Published Successfully!";
+    }
+
+
 }
