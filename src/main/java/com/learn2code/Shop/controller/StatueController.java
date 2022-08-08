@@ -94,8 +94,6 @@ public class StatueController implements StatueService {
 
         StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository);
         statuesConsumer.consumeStatues();
-        return "Published Successfully!";
+        return "Consumed Successfully!";
     }
-
-
 }

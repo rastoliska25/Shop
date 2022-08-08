@@ -23,6 +23,4 @@ public class Consumer {
         System.out.println("Consummed statue " + statue);
         statueRepository.save(statue);
     }
-
-
 }
