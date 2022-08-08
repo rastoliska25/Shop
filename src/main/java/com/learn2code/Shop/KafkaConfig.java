@@ -1,8 +1,6 @@
 package com.learn2code.Shop;
 
-import com.learn2code.Shop.db.service.Consumer;
 import com.learn2code.Shop.domain.User;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
