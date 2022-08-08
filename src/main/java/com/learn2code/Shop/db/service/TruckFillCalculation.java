@@ -4,17 +4,20 @@ import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.repository.TruckRepository;
 import com.learn2code.Shop.domain.Statue;
 import com.learn2code.Shop.domain.Truck;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class TruckFillCalculation {
 
+    private final TruckRepository truckRepository;
     private final StatueRepository statueRepository;
     List<Statue> statues = new ArrayList<>();
 
-    public TruckFillCalculation(StatueRepository statueRepository, List<Statue> statues) {
+    public TruckFillCalculation(TruckRepository truckRepository, StatueRepository statueRepository, List<Statue> statues) {
+        this.truckRepository = truckRepository;
         this.statueRepository = statueRepository;
         this.statues = statues;
     }
@@ -22,12 +25,6 @@ public class TruckFillCalculation {
     List<Truck> trucks = new ArrayList<>();
 
     public void calculate() {
-
-        int truckTransportWeight;
-
-        for (Truck truck : trucks) {
-            truckTransportWeight = truck.getTransportWeight();
-        }
 
         //uloží všetky statues do db
         for (Statue statue : statues) {
@@ -38,5 +35,23 @@ public class TruckFillCalculation {
             }
             statueRepository.save(statue);
         }
+
+        trucks = truckRepository.findAll();
+
+        for (Truck truck : trucks) {
+            System.out.println(truck);
+        }
+
+        Collections.sort(trucks, Comparator.comparing(Truck::getTransportWeight));  //potriedenie na základe transportWeight
+
+        int truckTransportWeight;
+
+        for (Truck truck : trucks) {
+            truckTransportWeight = truck.getTransportWeight();
+            System.out.println(truck);
+        }
+
+
+
     }
 }

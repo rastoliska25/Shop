@@ -1,6 +1,7 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.StatueRepository;
+import com.learn2code.Shop.db.repository.TruckRepository;
 import com.learn2code.Shop.db.service.StatuesConsumer;
 import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
@@ -17,9 +18,11 @@ import java.util.Optional;
 @RequestMapping("statue")
 public class StatueController implements StatueService {
 
+    private final TruckRepository truckRepository;
     private final StatueRepository statueRepository;
 
-    public StatueController(StatueRepository statueRepository) {
+    public StatueController(TruckRepository truckRepository, StatueRepository statueRepository) {
+        this.truckRepository = truckRepository;
         this.statueRepository = statueRepository;
     }
 
@@ -83,7 +86,7 @@ public class StatueController implements StatueService {
             System.out.println("published statue " + statue);
         }
 
-        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository, kafkaTemplate);
+        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository, truckRepository, kafkaTemplate);
         statuesConsumer.consumeStatues();
 
         return "Published Successfully: " + statues;

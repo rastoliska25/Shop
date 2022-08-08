@@ -1,13 +1,13 @@
 package com.learn2code.Shop.db.service;
 
 import com.learn2code.Shop.db.repository.StatueRepository;
+import com.learn2code.Shop.db.repository.TruckRepository;
 import com.learn2code.Shop.domain.Statue;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
@@ -24,14 +24,15 @@ import java.util.Properties;
 public class StatuesConsumer {
 
     private final StatueRepository statueRepository;
-
+    private final TruckRepository truckRepository;
     private final KafkaTemplate<String, Statue> kafkaTemplate;
 
     private static final String TOPIC = "demo";
 
 
-    public StatuesConsumer(StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate) {
+    public StatuesConsumer(StatueRepository statueRepository, TruckRepository truckRepository, KafkaTemplate<String, Statue> kafkaTemplate) {
         this.statueRepository = statueRepository;
+        this.truckRepository = truckRepository;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -72,7 +73,7 @@ public class StatuesConsumer {
             System.out.println("published statue " + statue);
         }
 
-        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(statueRepository, statues);
+        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, statues);
         truckFillCalculation.calculate();
 
     }
