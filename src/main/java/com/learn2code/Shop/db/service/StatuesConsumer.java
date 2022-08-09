@@ -80,7 +80,6 @@ public class StatuesConsumer {
         }
 
 
-
         TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, statues);
         truckFillCalculation.calculate();
 

@@ -86,15 +86,4 @@ public class StatueController implements ControllerForAll<Statue> {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    /*
-    @PostMapping("/consumeStatues") //consumovanie na request
-    public String consumeMessage() {
-
-        StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository);
-        statuesConsumer.consumeStatues();
-        return "Consumed Successfully!";
-    }
-    */
-
 }
