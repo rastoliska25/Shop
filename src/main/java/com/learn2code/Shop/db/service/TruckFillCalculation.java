@@ -72,48 +72,13 @@ public class TruckFillCalculation {
         System.out.println(Arrays.toString(statuesWeightArray));
         System.out.println(Arrays.toString(statuesNames));
         System.out.println(Arrays.toString(statuesIds));
+        System.out.println("kapacita: " + capacity);
 
-        memoization(statuesWeightArray, statuesIds);
-
-        //memoization original
-        /*
-        int NB_ITEMS = statuesWeightArray.length;
-
-        int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
-
-        for (int i = 0; i <= capacity; i++)
-            matrix[0][i] = 0;
-
-        for (int i = 1; i <= NB_ITEMS; i++) {
-            for (int j = 0; j <= capacity; j++) {
-                if (statuesWeightArray[i - 1] > j)
-                    matrix[i][j] = matrix[i-1][j];
-                else
-                    matrix[i][j] = Math.max(matrix[i-1][j], matrix[i-1][j-statuesWeightArray[i-1]] + statuesIds[i-1]);
-            }
-        }
-
-        //vypis vybraných sôch
-        int res = matrix[NB_ITEMS][capacity];
-        int w = capacity;
-        List<Integer> statueSolution = new ArrayList<>();
-
-        for (int i = NB_ITEMS; i<0 && res > 0; i--){
-            if (res != matrix[i-1][w]) {
-                statueSolution.add(statuesIds[i-1]);
-
-                res -= statuesIds[i-1];
-                w -= statuesWeightArray[i-1];
-            }
-        }
-
-         */
-
-
+        memoization(statuesIds, statuesWeightArray, statuesNames);
     }
 
-    //memo test
-    public void memoization (int[] statuesIds, int[] statuesWeightArray) {
+    //memoization
+    public void memoization(int[] statuesIds, int[] statuesWeightArray, String[] statuesNames) {
         int NB_ITEMS = statuesWeightArray.length;
 
         int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
@@ -123,35 +88,34 @@ public class TruckFillCalculation {
 
         for (int i = 1; i <= NB_ITEMS; i++) {
             for (int j = 0; j <= capacity; j++) {
-                if (statuesWeightArray[i - 1] > j)
-                    matrix[i][j] = matrix[i - 1][j];
+                if (statuesWeightArray[i - 1] > j) matrix[i][j] = matrix[i - 1][j];
                 else
-                    matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i - 1][j - statuesWeightArray[i - 1]] + statuesIds[i - 1]);
+                    matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i - 1][j - statuesWeightArray[i - 1]] + statuesWeightArray[i - 1]);
             }
         }
 
-        //vypis vybraných sôch
+        //výpis vybraných sôch
         int res = matrix[NB_ITEMS][capacity];
         int w = capacity;
         List<Integer> statueSolution = new ArrayList<>();
+        List<String> statueSolutionNames = new ArrayList<>();
+        List<Integer> statueSolutionWeights = new ArrayList<>();
 
-        for (int i = NB_ITEMS; i < 0 && res > 0; i--) {
+        for (int i = NB_ITEMS; i > 0 && res > 0; i--) {
             if (res != matrix[i - 1][w]) {
                 statueSolution.add(statuesIds[i - 1]);
+                statueSolutionNames.add(statuesNames[i - 1]);
+                statueSolutionWeights.add(statuesWeightArray[i - 1]);
 
-                res -= statuesIds[i - 1];
+                res -= statuesWeightArray[i - 1];
                 w -= statuesWeightArray[i - 1];
             }
         }
 
-
-        //return new Solution(statueSolution, matrix[NB_ITEMS][capacity]);
         System.out.println("\n");
-        System.out.println(statueSolution);
-        System.out.println(matrix[NB_ITEMS][capacity]);
+        System.out.println("ID vybranych soch: " + statueSolution);
+        System.out.println("Mena vybranych soch: " + statueSolutionNames);
+        System.out.println("Jednotlive hmotnosti vybranych soch: " + statueSolutionWeights);
+        System.out.println("Suma hmotnosti vlozenych soch: " + matrix[NB_ITEMS][capacity]);
     }
-
-
-
-
 }

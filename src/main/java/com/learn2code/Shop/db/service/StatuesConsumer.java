@@ -53,18 +53,19 @@ public class StatuesConsumer {
         List<Statue> statuesToProduceBack = new ArrayList<>();
         try {
             int x = 0;
-            ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(100));
+            ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(300));
 
             for (ConsumerRecord<String, Statue> record : records) {
                 System.out.println("consumed through poll:" + record.value());
-                //statues.add(record.value());
+                statues.add(record.value());
 
-                if (record.value().getWeight() < 250) {
+                /*
+                if (record.value().getWeight() < 350) {
                     statues.add(record.value());
                 } else {
                     statuesToProduceBack.add(record.value());
                 }
-
+                */
 
             }
         } finally {
