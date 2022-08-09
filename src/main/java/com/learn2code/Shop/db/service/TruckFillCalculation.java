@@ -5,10 +5,7 @@ import com.learn2code.Shop.db.repository.TruckRepository;
 import com.learn2code.Shop.domain.Statue;
 import com.learn2code.Shop.domain.Truck;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class TruckFillCalculation {
 
@@ -23,8 +20,23 @@ public class TruckFillCalculation {
     }
 
     List<Truck> trucks = new ArrayList<>();
+    int capacity;
 
     public void calculate() {
+
+        //nazvy a hmotnosti do arrays kvôli výpočtu
+        int[] statuesWeightArray = new int[statues.size()];
+        int[] statuesIds = new int[statues.size()];
+        String[] statuesNames = new String[statues.size()];
+        int poradie = 0;
+
+        for (Statue statue : statues) {
+            statuesWeightArray[poradie] = (int) (long) statue.getWeight();
+            statuesNames[poradie] = statue.getName();
+            statuesIds[poradie] = poradie;
+            poradie++;
+        }
+
 
         //uloží všetky statues do db
         /*
@@ -38,25 +50,108 @@ public class TruckFillCalculation {
         }*/
 
         //int sum = statues.stream().filter(o -> o.getWeight() > 10).mapToInt(o -> Math.toIntExact(o.getWeight())).sum(); //s filtrom na hmotnost
-        int statuesWeightSum = statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum(); //s filtrom na hmotnost
+        int statuesWeightSum = statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum();
 
-        System.out.println("\n" + "hmotnost soch dokopy: "+ statuesWeightSum + "\n");
+        System.out.println("\n" + "hmotnost soch dokopy: " + statuesWeightSum + "\n");
 
         trucks = truckRepository.findAll();
 
         Collections.sort(trucks, Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
 
         int truckTransportWeight;
-        Truck truckWithHighestTransportWeight =  trucks.get(trucks.size() - 1);
+        Truck truckWithHighestTransportWeight = trucks.get(trucks.size() - 1);
         for (Truck truck : trucks) {
             truckTransportWeight = truck.getTransportWeight();
             //if statuesWeightSum
             System.out.println(truck);
         }
 
-        System.out.println("Truck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight);
+        System.out.println("\n Truck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
+        capacity = truckWithHighestTransportWeight.getTransportWeight();
 
+        System.out.println(Arrays.toString(statuesWeightArray));
+        System.out.println(Arrays.toString(statuesNames));
+        System.out.println(Arrays.toString(statuesIds));
+
+        memoization(statuesWeightArray, statuesIds);
+
+        //memoization original
+        /*
+        int NB_ITEMS = statuesWeightArray.length;
+
+        int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
+
+        for (int i = 0; i <= capacity; i++)
+            matrix[0][i] = 0;
+
+        for (int i = 1; i <= NB_ITEMS; i++) {
+            for (int j = 0; j <= capacity; j++) {
+                if (statuesWeightArray[i - 1] > j)
+                    matrix[i][j] = matrix[i-1][j];
+                else
+                    matrix[i][j] = Math.max(matrix[i-1][j], matrix[i-1][j-statuesWeightArray[i-1]] + statuesIds[i-1]);
+            }
+        }
+
+        //vypis vybraných sôch
+        int res = matrix[NB_ITEMS][capacity];
+        int w = capacity;
+        List<Integer> statueSolution = new ArrayList<>();
+
+        for (int i = NB_ITEMS; i<0 && res > 0; i--){
+            if (res != matrix[i-1][w]) {
+                statueSolution.add(statuesIds[i-1]);
+
+                res -= statuesIds[i-1];
+                w -= statuesWeightArray[i-1];
+            }
+        }
+
+         */
 
 
     }
+
+    //memo test
+    public void memoization (int[] statuesIds, int[] statuesWeightArray) {
+        int NB_ITEMS = statuesWeightArray.length;
+
+        int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
+
+        for (int i = 0; i <= capacity; i++)
+            matrix[0][i] = 0;
+
+        for (int i = 1; i <= NB_ITEMS; i++) {
+            for (int j = 0; j <= capacity; j++) {
+                if (statuesWeightArray[i - 1] > j)
+                    matrix[i][j] = matrix[i - 1][j];
+                else
+                    matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i - 1][j - statuesWeightArray[i - 1]] + statuesIds[i - 1]);
+            }
+        }
+
+        //vypis vybraných sôch
+        int res = matrix[NB_ITEMS][capacity];
+        int w = capacity;
+        List<Integer> statueSolution = new ArrayList<>();
+
+        for (int i = NB_ITEMS; i < 0 && res > 0; i--) {
+            if (res != matrix[i - 1][w]) {
+                statueSolution.add(statuesIds[i - 1]);
+
+                res -= statuesIds[i - 1];
+                w -= statuesWeightArray[i - 1];
+            }
+        }
+
+
+        //return new Solution(statueSolution, matrix[NB_ITEMS][capacity]);
+        System.out.println("\n");
+        System.out.println(statueSolution);
+        System.out.println(matrix[NB_ITEMS][capacity]);
+    }
+
+
+
+
 }
