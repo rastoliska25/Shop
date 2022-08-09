@@ -58,20 +58,28 @@ public class StatuesConsumer {
 
             for (ConsumerRecord<String, Statue> record : records) {
                 System.out.println("consumed through poll:" + record.value());
+                statues.add(record.value());
+                /*
                 if (record.value().getWeight() < 250) {
                     statues.add(record.value());
                 } else {
                     statuesToProduceBack.add(record.value());
                 }
+                */
+
             }
         } finally {
             consumer.close();
         }
 
+        //vratenie do consumera
+        /*
         for (Statue statue : statuesToProduceBack) {
             kafkaTemplate.send(TOPIC, statue);
             System.out.println("published statue " + statue);
         }
+        */
+
 
         TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, statues);
         truckFillCalculation.calculate();

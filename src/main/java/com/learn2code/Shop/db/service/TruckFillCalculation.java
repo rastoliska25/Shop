@@ -27,6 +27,7 @@ public class TruckFillCalculation {
     public void calculate() {
 
         //uloží všetky statues do db
+        /*
         for (Statue statue : statues) {
             if (statue.getWeight() < 500) {
                 statue.setTruckId(5);
@@ -34,22 +35,26 @@ public class TruckFillCalculation {
                 statue.setTruckId(500);
             }
             statueRepository.save(statue);
-        }
+        }*/
+
+        //int sum = statues.stream().filter(o -> o.getWeight() > 10).mapToInt(o -> Math.toIntExact(o.getWeight())).sum(); //s filtrom na hmotnost
+        int statuesWeightSum = statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum(); //s filtrom na hmotnost
+
+        System.out.println("\n" + "hmotnost soch dokopy: "+ statuesWeightSum + "\n");
 
         trucks = truckRepository.findAll();
 
-        for (Truck truck : trucks) {
-            System.out.println(truck);
-        }
-
-        Collections.sort(trucks, Comparator.comparing(Truck::getTransportWeight));  //potriedenie na základe transportWeight
+        Collections.sort(trucks, Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
 
         int truckTransportWeight;
-
+        Truck truckWithHighestTransportWeight =  trucks.get(trucks.size() - 1);
         for (Truck truck : trucks) {
             truckTransportWeight = truck.getTransportWeight();
+            //if statuesWeightSum
             System.out.println(truck);
         }
+
+        System.out.println("Truck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight);
 
 
 
