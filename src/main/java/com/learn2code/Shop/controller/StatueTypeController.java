@@ -1,7 +1,6 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.StatueTypeRepository;
-import com.learn2code.Shop.db.service.api.StatueTypeService;
 import com.learn2code.Shop.domain.StatueType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("statueType")
-public class StatueTypeController implements StatueTypeService {
+public class StatueTypeController implements ControllerForAll<StatueType> {
 
     private final StatueTypeRepository statueTypeRepository;
 

@@ -3,7 +3,6 @@ package com.learn2code.Shop.controller;
 import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.repository.TruckRepository;
 import com.learn2code.Shop.db.service.StatuesConsumer;
-import com.learn2code.Shop.db.service.api.StatueService;
 import com.learn2code.Shop.domain.Statue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("statue")
-public class StatueController implements StatueService {
+public class StatueController implements ControllerForAll<Statue> {
 
     private final TruckRepository truckRepository;
     private final StatueRepository statueRepository;

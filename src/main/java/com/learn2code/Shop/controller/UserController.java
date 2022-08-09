@@ -1,12 +1,9 @@
 package com.learn2code.Shop.controller;
 
 import com.learn2code.Shop.db.repository.UserRepository;
-import com.learn2code.Shop.db.service.api.UserService;
 import com.learn2code.Shop.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
-public class UserController implements UserService {
+public class UserController implements ControllerForAll<User> {
     private final UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
