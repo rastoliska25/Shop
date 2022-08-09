@@ -29,11 +29,7 @@ public class StatueController implements StatueService {
     @PostMapping
     public ResponseEntity add(@RequestBody Statue statue) { //vytiahne Body do objektu
         statueRepository.save(statue);
-        Integer id = statue.getId();
-        if (id != null) {
-            return new ResponseEntity<>(id, HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); //ak sa nepodarí vytvoriť
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); //ak sa nepodarí vytvoriť
     }
 
     @GetMapping("{id}")
@@ -79,7 +75,7 @@ public class StatueController implements StatueService {
     private static final String TOPIC = "demo";
 
     @PostMapping("/publishStatues")
-    public String publishMessage(@RequestBody List<Statue> statues) {
+    public ResponseEntity<String> publishMessage(@RequestBody List<Statue> statues) {
 
         for (Statue statue : statues) {
             kafkaTemplate.send(TOPIC, statue);
@@ -89,7 +85,7 @@ public class StatueController implements StatueService {
         StatuesConsumer statuesConsumer = new StatuesConsumer(statueRepository, truckRepository, kafkaTemplate);
         statuesConsumer.consumeStatues();
 
-        return "Published Successfully: " + statues;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /*

@@ -49,7 +49,6 @@ public class StatuesConsumer {
 
         consumer.subscribe(Collections.singletonList("demo")); //naviazanie na topic
 
-
         List<Statue> statues = new ArrayList<>();
         List<Statue> statuesToProduceBack = new ArrayList<>();
         try {

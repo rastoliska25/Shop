@@ -25,8 +25,7 @@ public class UserController implements UserService {
     @PostMapping
     public ResponseEntity add(@RequestBody User user) { //vytiahne Body do objektu
         userRepository.save(user);
-        Integer id = user.getId();
-        return new ResponseEntity<>(id, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
