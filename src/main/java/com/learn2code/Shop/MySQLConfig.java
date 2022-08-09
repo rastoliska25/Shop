@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = {"com.learn2code.Shop.*"})
 @Configuration
 @EnableTransactionManagement
-@PropertySource({"application.properties"})
+@PropertySource({"application.yml"})
 @EnableJpaRepositories(
         basePackages = {"com.learn2code.Shop"},
         entityManagerFactoryRef = "EntityManagerFactory",
