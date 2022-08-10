@@ -19,46 +19,48 @@ class TruckFillCalculationTest {
     void memoReturnTestOne() {
         capacity = 1500;
         List<Statue> statues = new ArrayList<>();
-        statues.add(new Statue("socha 1", 524L));
-        statues.add(new Statue("socha 2", 311L));
-        statues.add(new Statue("socha 3", 421L));
-        statues.add(new Statue("socha 4", 721L));
-        statues.add(new Statue("socha 5", 452L));
-        statues.add(new Statue("socha 8", 271L));
 
-        Assertions.assertEquals(1484, memoization(statues)); //má byť 1484
+        statues.add(new Statue(1, "socha 1", 1, 626L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(2, "socha 2", 1, 524L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(3, "socha 3", 1, 311L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(4, "socha 4", 1, 421L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(5, "socha 5", 1, 721L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(6, "socha 6", 1, 452L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(7, "socha 7", 1, 271L, 343L, 436L, 792L, 5));
+
+        Assertions.assertEquals(1499, memoization(statues)); //má byť 1499
     }
 
     @Test
     void memoReturnTestTwo() {
         capacity = 2000;
         List<Statue> statues = new ArrayList<>();
-        statues.add(new Statue("socha 1", 524L));
-        statues.add(new Statue("socha 2", 452L));
-        statues.add(new Statue("socha 3", 421L));
-        statues.add(new Statue("socha 4", 721L));
-        statues.add(new Statue("socha 5", 452L));
-        statues.add(new Statue("socha 6", 741L));
-        statues.add(new Statue("socha 7", 821L));
-        statues.add(new Statue("socha 8", 271L));
-        Assertions.assertEquals(1996, memoization(statues)); //má byť 1996
+        statues.add(new Statue(1, "socha 1", 1, 626L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(2, "socha 2", 1, 524L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(3, "socha 3", 1, 311L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(4, "socha 4", 1, 421L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(5, "socha 5", 1, 721L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(6, "socha 6", 1, 452L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(7, "socha 7", 1, 282L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(8, "socha 8", 1, 602L, 343L, 436L, 792L, 5));
+        Assertions.assertEquals(1999, memoization(statues)); //má byť 1999
     }
 
     @Test
     void memoReturnTestThree() {
         capacity = 2300;
         List<Statue> statues = new ArrayList<>();
-        statues.add(new Statue("socha 1", 221L));
-        statues.add(new Statue("socha 2", 482L));
-        statues.add(new Statue("socha 3", 532L));
-        statues.add(new Statue("socha 4", 452L));
-        statues.add(new Statue("socha 5", 4333L));
-        statues.add(new Statue("socha 6", 784L));
-        statues.add(new Statue("socha 7", 801L));
-        statues.add(new Statue("socha 8", 254L));
-        statues.add(new Statue("socha 9", 152L));
-        statues.add(new Statue("socha 10", 711L));
-        Assertions.assertEquals(2298, memoization(statues)); //má byť 2298
+        statues.add(new Statue(1, "socha 1", 1, 626L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(2, "socha 2", 1, 524L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(3, "socha 3", 1, 311L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(4, "socha 4", 1, 421L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(5, "socha 5", 1, 721L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(6, "socha 6", 1, 452L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(7, "socha 7", 1, 282L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(8, "socha 8", 1, 602L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(9, "socha 9", 1, 211L, 343L, 436L, 792L, 5));
+        statues.add(new Statue(10, "socha 10", 1, 466L, 343L, 436L, 792L, 5));
+        Assertions.assertEquals(2299, memoization(statues)); //má byť 2299
     }
 
     @Test
@@ -70,7 +72,7 @@ class TruckFillCalculationTest {
                     List<Statue> statues = new ArrayList<>();
                     IntStream.range(0, 100)
                             .forEach(j -> {
-                                statues.add(new Statue("socha" + new Random().nextInt(1, 100), new Random().nextLong(100, 350)));
+                                statues.add(new Statue(1, "socha" + new Random().nextInt(1, 100), 1, new Random().nextLong(100, 350), 343L, 500L, 600L, 5));
                             });
                     Assertions.assertTrue(capacity >= memoization(statues));
                 });

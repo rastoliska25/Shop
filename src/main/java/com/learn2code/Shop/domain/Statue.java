@@ -35,9 +35,15 @@ public class Statue {
     public Statue() {
     }
 
-    public Statue(String name, Long weight) {
+    public Statue(Integer id, String name, Integer typeId, Long weight, Long length, Long width, Long height, Integer truckId) {
+        this.id = id;
         this.name = name;
+        this.typeId = typeId;
         this.weight = weight;
+        this.length = length;
+        this.width = width;
+        this.height = height;
+        this.truckId = truckId;
     }
 
     public Integer getId() {
