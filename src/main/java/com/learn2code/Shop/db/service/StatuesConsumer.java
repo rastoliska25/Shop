@@ -80,7 +80,7 @@ public class StatuesConsumer {
         }
 
 
-        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, statues);
+        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, kafkaTemplate, statues);
         truckFillCalculation.calculate();
 
     }

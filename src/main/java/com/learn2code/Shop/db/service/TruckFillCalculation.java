@@ -4,6 +4,7 @@ import com.learn2code.Shop.db.repository.StatueRepository;
 import com.learn2code.Shop.db.repository.TruckRepository;
 import com.learn2code.Shop.domain.Statue;
 import com.learn2code.Shop.domain.Truck;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.*;
 
@@ -11,11 +12,16 @@ public class TruckFillCalculation {
 
     private final TruckRepository truckRepository;
     private final StatueRepository statueRepository;
+
+    private final KafkaTemplate<String, Statue> kafkaTemplate;
+
+    private static final String TOPIC = "demo";
     List<Statue> statues = new ArrayList<>();
 
-    public TruckFillCalculation(TruckRepository truckRepository, StatueRepository statueRepository, List<Statue> statues) {
+    public TruckFillCalculation(TruckRepository truckRepository, StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues) {
         this.truckRepository = truckRepository;
         this.statueRepository = statueRepository;
+        this.kafkaTemplate = kafkaTemplate;
         this.statues = statues;
     }
 
@@ -24,48 +30,122 @@ public class TruckFillCalculation {
 
     public void calculate() {
 
-        //nazvy a hmotnosti do arrays kvôli výpočtu
-        int[] statuesWeightArray = new int[statues.size()];
-        int[] statuesIds = new int[statues.size()];
-        String[] statuesNamesArray = new String[statues.size()];
-        int poradie = 0;
-
-        for (Statue statue : statues) {
-            statuesWeightArray[poradie] = (int) (long) statue.getWeight();
-            statuesNamesArray[poradie] = statue.getName();
-            statuesIds[poradie] = poradie;
-            poradie++;
-        }
-
-        //int sum = statues.stream().filter(o -> o.getWeight() > 10).mapToInt(o -> Math.toIntExact(o.getWeight())).sum(); //s filtrom na hmotnost
         int statuesWeightSum = statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum();
 
         System.out.println("\n" + "hmotnost soch dokopy: " + statuesWeightSum + "\n");
 
         trucks = truckRepository.findAll();
 
-        Collections.sort(trucks, Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
+        trucks.sort(Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
 
-        int truckTransportWeight;
         Truck truckWithHighestTransportWeight = trucks.get(trucks.size() - 1);
         for (Truck truck : trucks) {
-            truckTransportWeight = truck.getTransportWeight();
-            //if statuesWeightSum
             System.out.println(truck);
         }
 
         System.out.println("\n Truck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
         capacity = truckWithHighestTransportWeight.getTransportWeight();
 
-        System.out.println(Arrays.toString(statuesWeightArray));
-        System.out.println(Arrays.toString(statuesNamesArray));
-        System.out.println(Arrays.toString(statuesIds));
         System.out.println("kapacita: " + capacity);
-
-        memoization(statuesIds, statuesWeightArray, statuesNamesArray, truckWithHighestTransportWeight);
+        System.out.println(statues.size());
+        memoization(statues);
     }
 
-    //memoization
+    public void memoization(List<Statue> statues) {
+        int NB_ITEMS = statues.size();
+
+        int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
+
+        for (int i = 0; i <= capacity; i++)
+            matrix[0][i] = 0;
+
+        for (int i = 1; i <= NB_ITEMS; i++) {
+            for (int j = 0; j <= capacity; j++) {
+                if (statues.get(i - 1).getWeight() > j) matrix[i][j] = matrix[i - 1][j];
+                else
+                    matrix[i][j] = Math.max(matrix[i - 1][j], matrix[i - 1][j - Math.toIntExact(statues.get(i - 1).getWeight())] + Math.toIntExact(statues.get(i - 1).getWeight()));
+            }
+        }
+
+        //všetky sochy:
+        System.out.println("\n Vsetky sochy:");
+        vypisSoch(statues);
+
+        //výpis vybraných sôch
+        int res = matrix[NB_ITEMS][capacity];
+        int w = capacity;
+
+        List<Statue> statueList = new ArrayList<>();
+
+        for (int i = NB_ITEMS; i > 0 && res > 0; i--) {
+            if (res != matrix[i - 1][w]) {
+                statueList.add(statues.get(i - 1));
+                res -= Math.toIntExact(statues.get(i - 1).getWeight());
+                w -= Math.toIntExact(statues.get(i - 1).getWeight());
+
+                //uloži sochu rovno do DB
+                statueRepository.save(statues.get(i - 1));
+
+                //v statues ostanu len sochy, ktore sa pošlu spať do kafky
+                statues.remove(statues.get(i - 1));
+            }
+        }
+
+        System.out.println("\nVybrané sochy:");
+        vypisSoch(statueList);
+
+        long sumOfSelectedStatues = statueList.stream()
+                .map(Statue::getWeight)
+                .mapToLong(Long::longValue)
+                .sum();
+
+        System.out.println("\nSuma vybranych soch:" + sumOfSelectedStatues);
+
+        System.out.println("\nSochy na produce:");
+        vypisSoch(statues);
+
+        //vrátenie do kafky
+        for (Statue statue : statues) {
+            kafkaTemplate.send(TOPIC, statue);
+            System.out.println("Published statue " + statue);
+        }
+    }
+
+    void vypisSoch(List<Statue> statues) {
+        for (Statue statue : statues) {
+            System.out.println(statue.getName());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    //memoization original
     public void memoization(int[] statuesIds, int[] statuesWeightArray, String[] statuesNamesArray, Truck truckWithHighestTransportWeight) {
         int NB_ITEMS = statuesWeightArray.length;
 
@@ -130,6 +210,8 @@ public class TruckFillCalculation {
             }
         }
     }
+
+     */
 
 
 }
