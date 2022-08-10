@@ -1,45 +1,36 @@
-spring.datasource:
-  jdbcUrl: jdbc:mysql://localhost:3306/shop?useSSL=false
-  driverClassName: com.mysql.cj.jdbc.Driver
-  password: password
-  username: root
+spring:
 
-  config:
-    activate:
-      on-profile: prod
+  datasource:
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    jdbc-url: jdbc:mysql://localhost:3306/shop?useSSL=false
 
-spring.datasource2:
-  jdbcUrl: jdbc:h2:mem:test
-  driverClassName: org.h2.Driver
-  password: password
-  username: sa
+  datasource2:
+    username: sa
+    jdbc-url: jdbc:h2:mem:test
+    password: password
+    driver-class-name: org.h2.Driver
 
-  config:
-    activate:
-      on-profile: test
-
-spring.jpa:
-  generate.ddl: true
-  database: default
-  properties:
+  jpa:
+    generate-ddl: 'true'
+    database: default
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: '100'
+        order_inserts: 'true'
     hibernate:
       ddl-auto: update
-      use-new-id-generator-mappings: false
-      jdbc:
-        batch_size: 100
-      order_inserts: true
-  show-sql: true
+      use-new-id-generator-mappings: 'false'
+    show-sql: 'true'
+  h2:
+    console:
+      path: /h2
+      enabled: 'true'
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: 'true'
 
-spring.h2:
-  console:
-    enabled: true
-    path: /h2
-
-spring.jackson:
-  deserialization:
-    fail-on-unknown-properties: true
-
-
-spring:
   profiles:
     active: prod
