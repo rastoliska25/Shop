@@ -14,29 +14,23 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.IntStream;
 
 @Component
 @EnableKafka
 public class StatuesConsumer {
-
     private final StatueRepository statueRepository;
     private final TruckRepository truckRepository;
     private final KafkaTemplate<String, Statue> kafkaTemplate;
 
     private static final String TOPIC = "demo";
 
-
     public StatuesConsumer(StatueRepository statueRepository, TruckRepository truckRepository, KafkaTemplate<String, Statue> kafkaTemplate) {
         this.statueRepository = statueRepository;
         this.truckRepository = truckRepository;
         this.kafkaTemplate = kafkaTemplate;
     }
-
-
     public void consumeStatues() {
         Properties props = new Properties();
         props.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
@@ -50,39 +44,19 @@ public class StatuesConsumer {
         consumer.subscribe(Collections.singletonList("demo")); //naviazanie na topic
 
         List<Statue> statues = new ArrayList<>();
-        List<Statue> statuesToProduceBack = new ArrayList<>();
         try {
-            int x = 0;
             ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(300));
 
             for (ConsumerRecord<String, Statue> record : records) {
                 System.out.println("consumed through poll:" + record.value());
                 statues.add(record.value());
-
-                /*
-                if (record.value().getWeight() < 350) {
-                    statues.add(record.value());
-                } else {
-                    statuesToProduceBack.add(record.value());
-                }
-                */
-
             }
         } finally {
             consumer.close();
         }
 
-        //vratenie do consumera
-
-        for (Statue statue : statuesToProduceBack) {
-            kafkaTemplate.send(TOPIC, statue);
-            System.out.println("published statue " + statue);
-        }
-
-
         TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, kafkaTemplate, statues);
         truckFillCalculation.calculate();
-
     }
 }
 
