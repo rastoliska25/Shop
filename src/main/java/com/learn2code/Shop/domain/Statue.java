@@ -35,6 +35,11 @@ public class Statue {
     public Statue() {
     }
 
+    public Statue(String name, Long weight) {
+        this.name = name;
+        this.weight = weight;
+    }
+
     public Integer getId() {
         return id;
     }
