@@ -27,27 +27,15 @@ public class TruckFillCalculation {
         //nazvy a hmotnosti do arrays kvôli výpočtu
         int[] statuesWeightArray = new int[statues.size()];
         int[] statuesIds = new int[statues.size()];
-        String[] statuesNames = new String[statues.size()];
+        String[] statuesNamesArray = new String[statues.size()];
         int poradie = 0;
 
         for (Statue statue : statues) {
             statuesWeightArray[poradie] = (int) (long) statue.getWeight();
-            statuesNames[poradie] = statue.getName();
+            statuesNamesArray[poradie] = statue.getName();
             statuesIds[poradie] = poradie;
             poradie++;
         }
-
-
-        //uloží všetky statues do db
-        /*
-        for (Statue statue : statues) {
-            if (statue.getWeight() < 500) {
-                statue.setTruckId(5);
-            } else {
-                statue.setTruckId(500);
-            }
-            statueRepository.save(statue);
-        }*/
 
         //int sum = statues.stream().filter(o -> o.getWeight() > 10).mapToInt(o -> Math.toIntExact(o.getWeight())).sum(); //s filtrom na hmotnost
         int statuesWeightSum = statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum();
@@ -70,15 +58,15 @@ public class TruckFillCalculation {
         capacity = truckWithHighestTransportWeight.getTransportWeight();
 
         System.out.println(Arrays.toString(statuesWeightArray));
-        System.out.println(Arrays.toString(statuesNames));
+        System.out.println(Arrays.toString(statuesNamesArray));
         System.out.println(Arrays.toString(statuesIds));
         System.out.println("kapacita: " + capacity);
 
-        memoization(statuesIds, statuesWeightArray, statuesNames);
+        memoization(statuesIds, statuesWeightArray, statuesNamesArray, truckWithHighestTransportWeight);
     }
 
     //memoization
-    public void memoization(int[] statuesIds, int[] statuesWeightArray, String[] statuesNames) {
+    public void memoization(int[] statuesIds, int[] statuesWeightArray, String[] statuesNamesArray, Truck truckWithHighestTransportWeight) {
         int NB_ITEMS = statuesWeightArray.length;
 
         int[][] matrix = new int[NB_ITEMS + 1][capacity + 1];
@@ -104,7 +92,7 @@ public class TruckFillCalculation {
         for (int i = NB_ITEMS; i > 0 && res > 0; i--) {
             if (res != matrix[i - 1][w]) {
                 statueSolution.add(statuesIds[i - 1]);
-                statueSolutionNames.add(statuesNames[i - 1]);
+                statueSolutionNames.add(statuesNamesArray[i - 1]);
                 statueSolutionWeights.add(statuesWeightArray[i - 1]);
 
                 res -= statuesWeightArray[i - 1];
@@ -117,5 +105,31 @@ public class TruckFillCalculation {
         System.out.println("Mena vybranych soch: " + statueSolutionNames);
         System.out.println("Jednotlive hmotnosti vybranych soch: " + statueSolutionWeights);
         System.out.println("Suma hmotnosti vlozenych soch: " + matrix[NB_ITEMS][capacity]);
+
+        //db Insert
+        insertDB(statueSolutionNames, statueSolutionWeights, truckWithHighestTransportWeight);
+
+
     }
+
+    public void insertDB(List<String> statueSolutionNames, List<Integer> statueSolutionWeights, Truck truckWithHighestTransportWeight) {
+
+        //lists to arrays
+        int[] statuesWeightArray = statueSolutionWeights.stream()
+                .mapToInt(Integer::intValue)
+                .toArray();
+
+        String[] statuesNamesArray = statueSolutionNames.toArray(new String[0]);
+
+        for (int i = 0; i < statuesWeightArray.length; i++) {
+            for (Statue statue : statues) {
+                if ((statue.getWeight() == statuesWeightArray[i]) && (Objects.equals(statue.getName(), statuesNamesArray[i]))) {
+                    statue.setTruckId(truckWithHighestTransportWeight.getId());
+                    statueRepository.save(statue);
+                }
+            }
+        }
+    }
+
+
 }
