@@ -1,7 +1,7 @@
 package com.learn2code.shop.db.service;
 
 import com.learn2code.shop.domain.Statue;
-import com.learn2code.shop.service.TruckFillCalculation;
+import com.learn2code.shop.service.weightCalculation.TruckFillCalculation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ class TruckFillCalculationTest {
                     statues.add(new Statue(5, "socha 5", 1, 701L, 343L, 436L, 792L, 5));
                     statues.add(new Statue(6, "socha 6", 1, 454L, 343L, 436L, 792L, 5));
                     statues.add(new Statue(7, "socha 7", 1, 270L, 343L, 436L, 792L, 5));
-                    statues.add(new Statue(7, "socha 7", 1, 278L, 343L, 436L, 792L, 5));
+                    statues.add(new Statue(7, "socha 8", 1, 278L, 343L, 436L, 792L, 5));
 
                     TruckFillCalculation truckFillCalculation = new TruckFillCalculation(statues);
                     Assertions.assertEquals(1799, truckFillCalculation.memoization(capacity)); //má byť 1499

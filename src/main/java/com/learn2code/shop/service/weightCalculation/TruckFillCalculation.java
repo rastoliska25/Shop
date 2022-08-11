@@ -1,4 +1,4 @@
-package com.learn2code.shop.service;
+package com.learn2code.shop.service.weightCalculation;
 
 import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
@@ -25,19 +25,19 @@ public class TruckFillCalculation {
     private static final String TOPIC = "demo";
     List<Statue> statues = new ArrayList<>();
 
-    public TruckFillCalculation(TruckRepository truckRepository, StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues) {
+    int capacity;
+
+    public TruckFillCalculation(TruckRepository truckRepository, StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues, int capacity) {
         this.truckRepository = truckRepository;
         this.statueRepository = statueRepository;
         this.kafkaTemplate = kafkaTemplate;
         this.statues = statues;
+        this.capacity = capacity;
     }
 
     public TruckFillCalculation(List<Statue> statues) {
         this.statues = statues;
     }
-
-    List<Truck> trucks = new ArrayList<>();
-    int capacity;
 
     int NB_ITEMS;
     int[][] matrix;
@@ -45,18 +45,6 @@ public class TruckFillCalculation {
     List<Statue> statueList = new ArrayList<>();
 
     public void calculate() {
-        trucks = truckRepository.findAll();
-
-        trucks.sort(Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
-
-        Truck truckWithHighestTransportWeight = trucks.get(trucks.size() - 1);
-        System.out.println("\n");
-        System.out.println("Trucky k dispozicii: ");
-        trucks.forEach(
-                System.out::println);
-
-        System.out.println("\nTruck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
-        capacity = truckWithHighestTransportWeight.getTransportWeight();
 
         System.out.println("Kapacita: " + capacity);
         System.out.println("\nPocet vsetkych soch: " + statues.size());
@@ -140,8 +128,8 @@ public class TruckFillCalculation {
     void navratSochDoKafky(List<Statue> statues) {
         statues.forEach(
                 (statue) -> {
-                    kafkaTemplate.send(TOPIC, statue);
                     System.out.println("Published statue " + statue);
+                    kafkaTemplate.send(TOPIC, statue);
                 });
     }
 

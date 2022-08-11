@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("user")
@@ -43,6 +44,12 @@ public class UserController implements ControllerForAll<User> {
     @PostMapping("/saveUsersTest")
     public ResponseEntity<String> insertUsers() {
         List<User> users = new ArrayList<>();
+
+        IntStream.range(0, 1000)
+                .forEach(index -> {
+                    users.add(new User("James", "Gosling"));
+                });
+
         users.add(new User("James", "Gosling"));
         users.add(new User("Doug", "Lea"));
         users.add(new User("Martin", "Fowler"));

@@ -3,6 +3,8 @@ package com.learn2code.shop.service;
 import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
+import com.learn2code.shop.domain.Truck;
+import com.learn2code.shop.service.weightCalculation.TruckFillCalculation;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -25,11 +27,16 @@ public class StatuesConsumer {
 
     private static final String TOPIC = "demo";
 
+    List<Truck> trucks = new ArrayList<>();
+
+    int capacity;
+
     public StatuesConsumer(StatueRepository statueRepository, TruckRepository truckRepository, KafkaTemplate<String, Statue> kafkaTemplate) {
         this.statueRepository = statueRepository;
         this.truckRepository = truckRepository;
         this.kafkaTemplate = kafkaTemplate;
     }
+
     public void consumeStatues() {
         Properties props = new Properties();
         props.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
@@ -54,8 +61,27 @@ public class StatuesConsumer {
             consumer.close();
         }
 
-        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, kafkaTemplate, statues);
+
+        trucks = truckRepository.findAll();
+        trucks.sort(Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
+
+        Truck truckWithHighestTransportWeight = trucks.get(trucks.size() - 1);
+        System.out.println("\n");
+        System.out.println("Trucky k dispozicii: ");
+        trucks.forEach(
+                System.out::println);
+
+        System.out.println("\nTruck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
+        capacity = truckWithHighestTransportWeight.getTransportWeight();
+
+
+        //hmotnosti
+        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, kafkaTemplate, statues, capacity);
         truckFillCalculation.calculate();
+
+        //TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator();
+
+
     }
 }
 
