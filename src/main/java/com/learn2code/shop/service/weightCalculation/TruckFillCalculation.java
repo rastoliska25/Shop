@@ -3,33 +3,21 @@ package com.learn2code.shop.service.weightCalculation;
 import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
-import com.learn2code.shop.domain.Truck;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.IntStream;
 
 @EnableKafka
 public class TruckFillCalculation {
-
-    private TruckRepository truckRepository;
-
-    private StatueRepository statueRepository;
-
     private KafkaTemplate<String, Statue> kafkaTemplate;
-
     private static final String TOPIC = "demo";
     List<Statue> statues = new ArrayList<>();
 
     int capacity;
 
-    public TruckFillCalculation(TruckRepository truckRepository, StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues, int capacity) {
-        this.truckRepository = truckRepository;
-        this.statueRepository = statueRepository;
+    public TruckFillCalculation(KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues, int capacity) {
         this.kafkaTemplate = kafkaTemplate;
         this.statues = statues;
         this.capacity = capacity;
@@ -44,7 +32,7 @@ public class TruckFillCalculation {
 
     List<Statue> statueList = new ArrayList<>();
 
-    public void calculate() {
+    public List<Statue> calculate() {
 
         System.out.println("Kapacita: " + capacity);
         System.out.println("\nPocet vsetkych soch: " + statues.size());
@@ -52,9 +40,9 @@ public class TruckFillCalculation {
 
         memoization(capacity);//vypocet pre najlepsi vyber
         System.out.println("\n");
-        ulozenieSoch(statueList);//ulozenie vybranych do DB
-        System.out.println("\n");
         navratSochDoKafky(statues);
+
+        return  (statueList);//navrat soch ktore su vybrane do trucku
     }
 
     public long memoization(int capacity) {
@@ -115,14 +103,6 @@ public class TruckFillCalculation {
     void vypisSoch(List<Statue> statues) {
         statues.forEach(
                 System.out::println);
-    }
-
-    //ulozenie do db
-    void ulozenieSoch(List<Statue> statuesList) {
-        statuesList.forEach(
-                (statue) -> {
-                    statueRepository.save(statue);
-                });
     }
 
     void navratSochDoKafky(List<Statue> statues) {

@@ -4,6 +4,7 @@ import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
+import com.learn2code.shop.service.areaCalculator.TruckAreaFillCalculator;
 import com.learn2code.shop.service.weightCalculation.TruckFillCalculation;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -28,6 +29,8 @@ public class StatuesConsumer {
     private static final String TOPIC = "demo";
 
     List<Truck> trucks = new ArrayList<>();
+
+    List<Statue> statuesWeightSelection = new ArrayList<>();
 
     int capacity;
 
@@ -61,7 +64,6 @@ public class StatuesConsumer {
             consumer.close();
         }
 
-
         trucks = truckRepository.findAll();
         trucks.sort(Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
 
@@ -76,12 +78,19 @@ public class StatuesConsumer {
 
 
         //hmotnosti
-        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(truckRepository, statueRepository, kafkaTemplate, statues, capacity);
-        truckFillCalculation.calculate();
+        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(kafkaTemplate, statues, capacity);
+        statuesWeightSelection = truckFillCalculation.calculate();
 
-        //TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator();
+        //uloženie prebehne až po naukladani sôch do trucku
+        //ulozenieSoch(statuesIntoTruck);
+        TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator(kafkaTemplate, statuesWeightSelection, truckWithHighestTransportWeight);
+        truckAreaFillCalculator.calculation();
+    }
 
-
+    //ulozenie do db
+    void ulozenieSoch(List<Statue> statuesList) {
+        statuesList.forEach(
+                statueRepository::save);
     }
 }
 

@@ -1,31 +1,68 @@
 package com.learn2code.shop.service.areaCalculator;
 
-import com.learn2code.shop.db.repository.StatueRepository;
-import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
+import com.learn2code.shop.domain.Truck;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.*;
 
 public class TruckAreaFillCalculator {
-    private final TruckRepository truckRepository;
-    private final StatueRepository statueRepository;
     private final KafkaTemplate<String, Statue> kafkaTemplate;
 
     private static final String TOPIC = "demo";
     List<Statue> statues = new ArrayList<>();
 
-    public TruckAreaFillCalculator(TruckRepository truckRepository, StatueRepository statueRepository, KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues) {
-        this.truckRepository = truckRepository;
-        this.statueRepository = statueRepository;
+    List<Statue> statuesToInsert = new ArrayList<>();
+    List<Statue> statuesToProduceBack = new ArrayList<>();
+
+    Truck truck;
+
+    public TruckAreaFillCalculator(KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues, Truck truck) {
         this.kafkaTemplate = kafkaTemplate;
         this.statues = statues;
+        this.truck = truck;
     }
 
-    public void calculation() {
-        TruckFilling<Object> testPack = new TruckFilling<>(300, 400);
-        ArrayList<Rectangle> blocks = new ArrayList<>();
+    public List<Statue> calculation() {
+        //TruckFilling<Object> testPack = new TruckFilling<>(300, 400);
+        TruckFilling<Object> testPack = new TruckFilling<>(truck.getTransportWidth() - 1000, truck.getTransportLength() - 2000);
+        Rectangle block = new Rectangle();
+        Rectangle blockInserted = new Rectangle();
 
-        System.out.println("");
+        statues.sort(Comparator.comparing(Statue::getLength));
+        Collections.reverse(statues);
+
+        statues.forEach(
+                (statue) -> {
+                    if (statue.getLength() >= statue.getWidth()) {
+                        if (testPack.insert(Math.toIntExact(statue.getWidth()), Math.toIntExact(statue.getLength()), block) == null) {
+                            System.out.println("nepreslo" + statue);
+                            statuesToProduceBack.add(statue);
+                        } else {
+                            System.out.println("preslo" + statue);
+                            statuesToInsert.add(statue);
+                        }
+                    } else {
+                        if (testPack.insert(Math.toIntExact(statue.getLength()), Math.toIntExact(statue.getWidth()), block) == null) {
+                            System.out.println("nepreslo" + statue);
+                            statuesToProduceBack.add(statue);
+                        } else {
+                            System.out.println("preslo" + statue);
+                            statuesToInsert.add(statue);
+                        }
+                    }
+                });
+
+        navratSochDoKafky(statuesToProduceBack);
+
+        return statuesToInsert;
+    }
+
+    void navratSochDoKafky(List<Statue> statues) {
+        statues.forEach(
+                (statue) -> {
+                    System.out.println("Published statue " + statue);
+                    kafkaTemplate.send(TOPIC, statue);
+                });
     }
 }
