@@ -1,5 +1,6 @@
 package com.learn2code.shop.service.areaCalculator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TruckFilling<T> {
@@ -7,6 +8,12 @@ public class TruckFilling<T> {
         NOK,
         SUPER,
         OK
+    }
+
+    List<Rectangle> statuesDrawing = new ArrayList<>();
+
+    public List<Rectangle> statuesToDraw() {
+        return statuesDrawing;
     }
 
     private Node root;
@@ -31,6 +38,8 @@ public class TruckFilling<T> {
         Node node = root.insert(width, height, o);
 
         if (node != null) {
+            statuesDrawing.add(new Rectangle(node.rect.x, node.rect.y,
+                    node.rect.width, node.rect.height));
             return new Rectangle(node.rect.x, node.rect.y,
                     node.rect.width, node.rect.height);
         } else {
@@ -119,6 +128,7 @@ public class TruckFilling<T> {
         private boolean isOccupied() {
             return occupier != null || !isLeaf();
         }
+
         private boolean remove(T o) {
             if (isLeaf()) {
                 if (occupier == o) {

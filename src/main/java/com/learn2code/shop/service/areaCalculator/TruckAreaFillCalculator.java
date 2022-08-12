@@ -4,6 +4,7 @@ import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
 import org.springframework.kafka.core.KafkaTemplate;
 
+import javax.swing.*;
 import java.util.*;
 
 public class TruckAreaFillCalculator {
@@ -15,6 +16,7 @@ public class TruckAreaFillCalculator {
     List<Statue> statuesToInsert = new ArrayList<>();
     List<Statue> statuesToProduceBack = new ArrayList<>();
 
+    List<Rectangle> statuesDrawing = new ArrayList<>();
     Truck truck;
 
     public TruckAreaFillCalculator(KafkaTemplate<String, Statue> kafkaTemplate, List<Statue> statues, Truck truck) {
@@ -55,6 +57,11 @@ public class TruckAreaFillCalculator {
 
         navratSochDoKafky(statuesToProduceBack);
 
+        statuesDrawing = testPack.statuesToDraw();
+        System.out.println(statuesDrawing);
+
+        vykreslenie(statuesDrawing);
+
         return statuesToInsert;
     }
 
@@ -64,5 +71,15 @@ public class TruckAreaFillCalculator {
                     System.out.println("Published statue " + statue);
                     kafkaTemplate.send(TOPIC, statue);
                 });
+    }
+
+    void vykreslenie(List<Rectangle> statuesToDraw) {
+        JFrame jFrame = new JFrame("truck1");
+        Drawing drawing = new Drawing(statuesToDraw);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setSize((truck.getTransportWidth() - 1000) / 5, (truck.getTransportLength() - 2000) / 5);
+        jFrame.setVisible(true);
+        jFrame.setIgnoreRepaint(true);
+        jFrame.add(drawing);
     }
 }
