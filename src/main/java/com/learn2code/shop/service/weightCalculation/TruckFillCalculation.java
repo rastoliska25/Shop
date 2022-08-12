@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 public class TruckFillCalculation {
     private KafkaTemplate<String, Statue> kafkaTemplate;
     private static final String TOPIC = "demo";
-    List<Statue> statues = new ArrayList<>();
+    List<Statue> statues;
 
     int capacity;
 

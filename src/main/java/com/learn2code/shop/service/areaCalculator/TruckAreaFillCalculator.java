@@ -26,10 +26,8 @@ public class TruckAreaFillCalculator {
     }
 
     public List<Statue> calculation() {
-        //TruckFilling<Object> testPack = new TruckFilling<>(300, 400);
-        TruckFilling<Object> testPack = new TruckFilling<>(truck.getTransportWidth() - 1000, truck.getTransportLength() - 2000);
+        TruckFilling<Object> testPack = new TruckFilling<>(truck.getTransportWidth(), truck.getTransportLength());
         Rectangle block = new Rectangle();
-        Rectangle blockInserted = new Rectangle();
 
         statues.sort(Comparator.comparing(Statue::getLength));
         Collections.reverse(statues);
@@ -77,7 +75,7 @@ public class TruckAreaFillCalculator {
         JFrame jFrame = new JFrame("truck1");
         Drawing drawing = new Drawing(statuesToDraw);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize((truck.getTransportWidth() - 1000) / 5, (truck.getTransportLength() - 2000) / 5);
+        jFrame.setSize((truck.getTransportWidth()) / 5, (truck.getTransportLength()) / 5);
         jFrame.setVisible(true);
         jFrame.setIgnoreRepaint(true);
         jFrame.add(drawing);

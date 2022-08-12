@@ -14,5 +14,4 @@ public class ShopApplication {
 		builder.headless(false);
 		ConfigurableApplicationContext context = builder.run(args);
 	}
-
 }
