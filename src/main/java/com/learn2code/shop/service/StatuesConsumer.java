@@ -5,6 +5,7 @@ import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
 import com.learn2code.shop.service.areaCalculator.TruckAreaFillCalculator;
+import com.learn2code.shop.service.drawing.Drawing;
 import com.learn2code.shop.service.weightCalculation.TruckFillCalculation;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -16,6 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
 
+import javax.swing.*;
 import java.time.Duration;
 import java.util.*;
 
@@ -31,6 +33,8 @@ public class StatuesConsumer {
     List<Truck> trucks = new ArrayList<>();
 
     List<Statue> statuesWeightSelection = new ArrayList<>();
+
+    List<Statue> statuesToInsert = new ArrayList<>();
 
     int capacity;
 
@@ -84,7 +88,21 @@ public class StatuesConsumer {
         //uloženie prebehne až po naukladani sôch do trucku
         //ulozenieSoch(statuesIntoTruck);
         TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator(kafkaTemplate, statuesWeightSelection, truckWithHighestTransportWeight);
-        truckAreaFillCalculator.calculation();
+        statuesToInsert = truckAreaFillCalculator.calculation();
+
+
+        //vykreslenie
+        /*
+        JFrame jFrame = new JFrame("truck1");
+        Drawing drawing = new Drawing(statuesToInsert);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.setSize(2000,2000);
+        jFrame.setVisible(true);
+        jFrame.setIgnoreRepaint(true);
+        jFrame.add(drawing);
+        */
+
+
     }
 
     //ulozenie do db
