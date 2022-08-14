@@ -34,40 +34,34 @@ public class Drawing extends JPanel {
 
         int i = 0;
         for (Rectangle statueToDraw : statuesToDraw) {
-                    int x;
-                    int y;
-                    int width;
-                    int height;
-                    String statueName = "";
-                    for (Statue statue : statuesToInsert) {
-                        if ((statue.getWidth() == statueToDraw.width) && (statue.getLength() == statueToDraw.height)) {
-                            statueName = statue.getName();
-                        }
-                    }
+            int x;
+            int y;
+            int width;
+            int height;
 
-                    if (statueToDraw.x == 0) {
-                        x = 0;
-                    } else x = statueToDraw.x / 5;
+            if (statueToDraw.x == 0) {
+                x = 0;
+            } else x = statueToDraw.x / 4;
 
-                    if (statueToDraw.y == 0) {
-                        y = 0;
-                    } else y = statueToDraw.y / 5;
+            if (statueToDraw.y == 0) {
+                y = 0;
+            } else y = statueToDraw.y / 4;
 
-                    if (statueToDraw.width == 0) {
-                        width = 0;
-                    } else width = statueToDraw.width / 5;
+            if (statueToDraw.width == 0) {
+                width = 0;
+            } else width = statueToDraw.width / 4;
 
-                    if (statueToDraw.height == 0) {
-                        height = 0;
-                    } else height = statueToDraw.height / 5;
+            if (statueToDraw.height == 0) {
+                height = 0;
+            } else height = statueToDraw.height / 4;
 
-                    graphics.setColor(new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
-                    graphics.fillRect(x, y, width, height);
-                    graphics.setColor(Color.BLACK);
-                    graphics.drawString(statuesToInsert.get(i).getName(), x, y + 20);
-                    graphics.drawString(statueToDraw.width + "x" + statueToDraw.height, x, y + 45);
-                    i++;
-                }
+            graphics.setColor(new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
+            graphics.fillRect(x, y, width, height);
+            graphics.setColor(Color.BLACK);
+            graphics.drawString(statuesToInsert.get(i).getName(), x, y + 10);
+            graphics.drawString(statueToDraw.width + "x" + statueToDraw.height, x, y + 25);
+            i++;
+        }
     }
 
 }

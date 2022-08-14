@@ -72,10 +72,10 @@ public class TruckAreaFillCalculator {
     }
 
     void vykreslenie(List<Rectangle> statuesToDraw, List<Statue> statuesToInsert) {
-        JFrame jFrame = new JFrame("truck1");
+        JFrame jFrame = new JFrame(truck.getName() + "   " + truck.getTransportWidth() + "x" + truck.getTransportLength());
         Drawing drawing = new Drawing(statuesToDraw, statuesToInsert);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jFrame.setSize((truck.getTransportWidth()) / 5, (truck.getTransportLength()) / 5);
+        jFrame.setSize((truck.getTransportWidth()) / 4, (truck.getTransportLength()) / 4);
         jFrame.setVisible(true);
         jFrame.setIgnoreRepaint(true);
         jFrame.add(drawing);

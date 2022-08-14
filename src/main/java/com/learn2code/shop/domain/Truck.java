@@ -32,6 +32,9 @@ public class Truck {
     @Column(name = "load_securing")
     private Byte loadSecuring;
 
+    @Column(name = "used")
+    private Byte used;
+
     public Truck() {
     }
 
@@ -63,6 +66,14 @@ public class Truck {
         return loadSecuring;
     }
 
+    public Byte getUsed() {
+        return used;
+    }
+
+    public void setUsed(Byte used) {
+        this.used = used;
+    }
+
     public Integer getTransportWeight() {
         return transportWeight;
     }
@@ -78,6 +89,7 @@ public class Truck {
                 ", transportWeight=" + transportWeight +
                 ", averageConsumption=" + averageConsumption +
                 ", loadSecuring=" + loadSecuring +
+                ", used=" + used +
                 '}';
     }
 }

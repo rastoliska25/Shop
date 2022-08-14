@@ -55,40 +55,52 @@ public class StatuesConsumer {
         consumer.subscribe(Collections.singletonList("demo")); //naviazanie na topic
 
         List<Statue> statues = new ArrayList<>();
-        try {
-            ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(300));
 
-            for (ConsumerRecord<String, Statue> record : records) {
-                System.out.println("consumed through poll:" + record.value());
-                statues.add(record.value());
+        //hlada iba voľné trucky a najde truck s highest transport weight
+        trucks = truckRepository.findByUsed(null);
+
+        if (trucks.size() > 0) {
+
+            //consumuje len ak je volny truck
+            try {
+                ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(300));
+
+                for (ConsumerRecord<String, Statue> record : records) {
+                    System.out.println("consumed through poll:" + record.value());
+                    statues.add(record.value());
+                }
+            } finally {
+                consumer.close();
             }
-        } finally {
-            consumer.close();
-        }
 
-        trucks = truckRepository.findAll();
-        trucks.sort(Comparator.comparing(Truck::getTransportWeight));  //potriedenie trucks na základe transportWeight
+            trucks.sort(Comparator.comparing(Truck::getTransportWeight));
+            Truck truckWithHighestTransportWeight = trucks.get(trucks.size() - 1);
 
-        Truck truckWithHighestTransportWeight = trucks.get(trucks.size() - 1);
-        System.out.println("\n");
-        System.out.println("Trucky k dispozicii: ");
-        trucks.forEach(
-                System.out::println);
+            //dať truck ako used do DB
+            truckWithHighestTransportWeight.setUsed((byte) 1);
+            truckRepository.save(truckWithHighestTransportWeight);
 
-        System.out.println("\nTruck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
-        capacity = truckWithHighestTransportWeight.getTransportWeight();
+            System.out.println("\n");
+            System.out.println("Trucky k dispozicii: ");
+            trucks.forEach(
+                    System.out::println);
+
+            System.out.println("\nTruck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
+            capacity = truckWithHighestTransportWeight.getTransportWeight();
 
 
-        //hmotnosti
-        TruckFillCalculation truckFillCalculation = new TruckFillCalculation(kafkaTemplate, statues, capacity);
-        statuesWeightSelection = truckFillCalculation.calculate();
+            //hmotnosti
+            TruckFillCalculation truckFillCalculation = new TruckFillCalculation(kafkaTemplate, statues, capacity);
+            statuesWeightSelection = truckFillCalculation.calculate();
 
-        //uloženie prebehne až po naukladani sôch do trucku
-        //ulozenieSoch(statuesIntoTruck);
-        TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator(kafkaTemplate, statuesWeightSelection, truckWithHighestTransportWeight);
-        statuesToInsert = truckAreaFillCalculator.calculation();
+            //uloženie prebehne až po naukladani sôch do trucku
+            //ulozenieSoch(statuesIntoTruck);
+            TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator(kafkaTemplate, statuesWeightSelection, truckWithHighestTransportWeight);
+            statuesToInsert = truckAreaFillCalculator.calculation();
 
-        ulozenieSoch(statuesToInsert, truckWithHighestTransportWeight.getId());
+            ulozenieSoch(statuesToInsert, truckWithHighestTransportWeight.getId());
+        } else
+            System.out.println("There is no truck available!");
     }
 
     //ulozenie do db
