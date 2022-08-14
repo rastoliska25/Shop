@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Drawing extends JPanel {
@@ -14,8 +15,11 @@ public class Drawing extends JPanel {
 
     List<Rectangle> statuesToDraw;
 
-    public Drawing(List<Rectangle> statuesToDraw) {
+    List<Statue> statuesToInsert;
+
+    public Drawing(List<Rectangle> statuesToDraw, List<Statue> statuesToInsert) {
         this.statuesToDraw = statuesToDraw;
+        this.statuesToInsert = statuesToInsert;
     }
 
     @Override
@@ -28,12 +32,18 @@ public class Drawing extends JPanel {
 
         Random rand = new Random();
 
-        statuesToDraw.forEach(
-                (statueToDraw) -> {
+        int i = 0;
+        for (Rectangle statueToDraw : statuesToDraw) {
                     int x;
                     int y;
                     int width;
                     int height;
+                    String statueName = "";
+                    for (Statue statue : statuesToInsert) {
+                        if ((statue.getWidth() == statueToDraw.width) && (statue.getLength() == statueToDraw.height)) {
+                            statueName = statue.getName();
+                        }
+                    }
 
                     if (statueToDraw.x == 0) {
                         x = 0;
@@ -53,10 +63,11 @@ public class Drawing extends JPanel {
 
                     graphics.setColor(new Color(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
                     graphics.fillRect(x, y, width, height);
-                });
-
-        graphics.setColor(Color.RED);
-        graphics.drawString("Truck1", 25, 65);
+                    graphics.setColor(Color.BLACK);
+                    graphics.drawString(statuesToInsert.get(i).getName(), x, y + 20);
+                    graphics.drawString(statueToDraw.width + "x" + statueToDraw.height, x, y + 45);
+                    i++;
+                }
     }
 
 }

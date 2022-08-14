@@ -58,7 +58,7 @@ public class TruckAreaFillCalculator {
         statuesDrawing = testPack.statuesToDraw();
         System.out.println(statuesDrawing);
 
-        vykreslenie(statuesDrawing);
+        vykreslenie(statuesDrawing, statuesToInsert);
 
         return statuesToInsert;
     }
@@ -71,9 +71,9 @@ public class TruckAreaFillCalculator {
                 });
     }
 
-    void vykreslenie(List<Rectangle> statuesToDraw) {
+    void vykreslenie(List<Rectangle> statuesToDraw, List<Statue> statuesToInsert) {
         JFrame jFrame = new JFrame("truck1");
-        Drawing drawing = new Drawing(statuesToDraw);
+        Drawing drawing = new Drawing(statuesToDraw, statuesToInsert);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setSize((truck.getTransportWidth()) / 5, (truck.getTransportLength()) / 5);
         jFrame.setVisible(true);

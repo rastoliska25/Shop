@@ -88,12 +88,16 @@ public class StatuesConsumer {
         TruckAreaFillCalculator truckAreaFillCalculator = new TruckAreaFillCalculator(kafkaTemplate, statuesWeightSelection, truckWithHighestTransportWeight);
         statuesToInsert = truckAreaFillCalculator.calculation();
 
+        ulozenieSoch(statuesToInsert, truckWithHighestTransportWeight.getId());
     }
 
     //ulozenie do db
-    void ulozenieSoch(List<Statue> statuesList) {
+    void ulozenieSoch(List<Statue> statuesList, int id) {
         statuesList.forEach(
-                statueRepository::save);
+                statue -> {
+                    statue.setTruckId(id);
+                    statueRepository.save(statue);
+                });
     }
 }
 
