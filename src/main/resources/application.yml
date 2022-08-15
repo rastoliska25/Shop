@@ -34,3 +34,7 @@ spring:
 
   profiles:
     active: prod
+
+springdoc:
+  api-docs:
+    path: /shop-docs
