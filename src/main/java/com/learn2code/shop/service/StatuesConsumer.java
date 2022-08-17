@@ -4,6 +4,7 @@ import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
+import com.learn2code.shop.service.VolumeCalculator.visualization.TruckPacker;
 import com.learn2code.shop.service.areaCalculator.TruckAreaFillCalculator;
 import com.learn2code.shop.service.weightCalculation.TruckFillCalculation;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -16,6 +17,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.*;
 
@@ -42,7 +44,7 @@ public class StatuesConsumer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void consumeStatues() {
+    public void consumeStatues() throws IOException {
         Properties props = new Properties();
         props.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092");
         props.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
@@ -89,6 +91,7 @@ public class StatuesConsumer {
             capacity = truckWithHighestTransportWeight.getTransportWeight();
 
 
+            /* //vypnute pre test 3D
             //hmotnosti
             TruckFillCalculation truckFillCalculation = new TruckFillCalculation(kafkaTemplate, statues, capacity);
             statuesWeightSelection = truckFillCalculation.calculate();
@@ -99,6 +102,10 @@ public class StatuesConsumer {
             statuesToInsert = truckAreaFillCalculator.calculation();
 
             ulozenieSoch(statuesToInsert, truckWithHighestTransportWeight.getId());
+
+            */
+            new TruckPacker().packuj(truckWithHighestTransportWeight, statues);
+
         } else
             System.out.println("There is no truck available!");
     }

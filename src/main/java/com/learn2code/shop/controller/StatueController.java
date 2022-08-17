@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,7 +75,7 @@ public class StatueController implements ControllerForAll<Statue> {
     private static final String TOPIC = "demo";
 
     @PostMapping("/publishStatues")
-    public ResponseEntity<String> publishMessage(@RequestBody List<Statue> statues) {
+    public ResponseEntity<String> publishMessage(@RequestBody List<Statue> statues) throws IOException {
 
         for (Statue statue : statues) {
             kafkaTemplate.send(TOPIC, statue);
