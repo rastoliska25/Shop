@@ -1,4 +1,4 @@
-package com.learn2code.shop.service.VolumeCalculator;
+package com.learn2code.shop.service.volumeCalculator;
 
 public enum PackItemResult {
     Uspesne,

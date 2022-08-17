@@ -1,8 +1,8 @@
-package com.learn2code.shop.service.VolumeCalculator.dto;
+package com.learn2code.shop.service.volumeCalculator.dto;
 
-import com.learn2code.shop.service.VolumeCalculator.PackItemResult;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Element;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.ResultOfPacking;
+import com.learn2code.shop.service.volumeCalculator.PackItemResult;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
+import com.learn2code.shop.service.volumeCalculator.interfaces.ResultOfPacking;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
-package com.learn2code.shop.service.VolumeCalculator.visualization;
+package com.learn2code.shop.service.volumeCalculator.visualization;
 
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Placement;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Placement;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

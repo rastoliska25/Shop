@@ -1,6 +1,6 @@
-package com.learn2code.shop.service.VolumeCalculator.dto;
+package com.learn2code.shop.service.volumeCalculator.dto;
 
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Element;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
 
 public class BasicElement extends BasicRectangularBox implements Element {
 

@@ -1,6 +1,6 @@
-package com.learn2code.shop.service.VolumeCalculator.dto;
+package com.learn2code.shop.service.volumeCalculator.dto;
 
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Element;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
 
 import java.util.Comparator;
 import java.util.List;

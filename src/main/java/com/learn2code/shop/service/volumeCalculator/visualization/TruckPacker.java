@@ -1,12 +1,12 @@
-package com.learn2code.shop.service.VolumeCalculator.visualization;
+package com.learn2code.shop.service.volumeCalculator.visualization;
 
 
 import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
-import com.learn2code.shop.service.VolumeCalculator.dto.BasicElement;
-import com.learn2code.shop.service.VolumeCalculator.dto.BasicTruck;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Element;
-import com.learn2code.shop.service.VolumeCalculator.modelLaff.TruckPackingLaff;
+import com.learn2code.shop.service.volumeCalculator.dto.BasicElement;
+import com.learn2code.shop.service.volumeCalculator.dto.BasicTruck;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
+import com.learn2code.shop.service.volumeCalculator.modelLaff.TruckPackingLaff;
 
 import java.io.IOException;
 import java.util.ArrayList;

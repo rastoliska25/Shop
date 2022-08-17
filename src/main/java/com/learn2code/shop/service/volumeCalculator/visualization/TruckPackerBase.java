@@ -1,8 +1,8 @@
-package com.learn2code.shop.service.VolumeCalculator.visualization;
+package com.learn2code.shop.service.volumeCalculator.visualization;
 
-import com.learn2code.shop.service.VolumeCalculator.PackItemResult;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Element;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.PackingTool;
+import com.learn2code.shop.service.volumeCalculator.PackItemResult;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
+import com.learn2code.shop.service.volumeCalculator.interfaces.PackingTool;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

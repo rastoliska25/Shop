@@ -1,7 +1,7 @@
-package com.learn2code.shop.service.VolumeCalculator.interfaces;
+package com.learn2code.shop.service.volumeCalculator.interfaces;
 
 
-import com.learn2code.shop.service.VolumeCalculator.PackItemResult;
+import com.learn2code.shop.service.volumeCalculator.PackItemResult;
 
 import java.util.List;
 

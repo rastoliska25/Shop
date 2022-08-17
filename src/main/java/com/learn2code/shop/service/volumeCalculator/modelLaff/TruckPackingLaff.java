@@ -1,10 +1,10 @@
-package com.learn2code.shop.service.VolumeCalculator.modelLaff;
+package com.learn2code.shop.service.volumeCalculator.modelLaff;
 
-import com.learn2code.shop.service.VolumeCalculator.*;
-import com.learn2code.shop.service.VolumeCalculator.dto.BasicResultOfPacking;
-import com.learn2code.shop.service.VolumeCalculator.dto.BasicTruckStatus;
-import com.learn2code.shop.service.VolumeCalculator.dto.ItemListSorter;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.*;
+import com.learn2code.shop.service.volumeCalculator.*;
+import com.learn2code.shop.service.volumeCalculator.dto.BasicResultOfPacking;
+import com.learn2code.shop.service.volumeCalculator.dto.BasicTruckStatus;
+import com.learn2code.shop.service.volumeCalculator.dto.ItemListSorter;
+import com.learn2code.shop.service.volumeCalculator.interfaces.*;
 
 import java.util.ArrayList;
 import java.util.List;

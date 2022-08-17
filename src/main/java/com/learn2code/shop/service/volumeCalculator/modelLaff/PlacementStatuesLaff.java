@@ -1,9 +1,9 @@
-package com.learn2code.shop.service.VolumeCalculator.modelLaff;
+package com.learn2code.shop.service.volumeCalculator.modelLaff;
 
-import com.learn2code.shop.service.VolumeCalculator.dto.BasicRectangularBox;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Element;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Placement;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.RectangularBox;
+import com.learn2code.shop.service.volumeCalculator.dto.BasicRectangularBox;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Placement;
+import com.learn2code.shop.service.volumeCalculator.interfaces.RectangularBox;
 
 import java.util.HashSet;
 import java.util.List;

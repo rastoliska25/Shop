@@ -1,6 +1,6 @@
-package com.learn2code.shop.service.VolumeCalculator.visualization;
+package com.learn2code.shop.service.volumeCalculator.visualization;
 
-import com.learn2code.shop.service.VolumeCalculator.interfaces.RectangularBox;
+import com.learn2code.shop.service.volumeCalculator.interfaces.RectangularBox;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

@@ -1,7 +1,7 @@
-package com.learn2code.shop.service.VolumeCalculator.dto;
+package com.learn2code.shop.service.volumeCalculator.dto;
 
-import com.learn2code.shop.service.VolumeCalculator.interfaces.RectangularBox;
-import com.learn2code.shop.service.VolumeCalculator.interfaces.Truck;
+import com.learn2code.shop.service.volumeCalculator.interfaces.RectangularBox;
+import com.learn2code.shop.service.volumeCalculator.interfaces.Truck;
 
 public class BasicTruck extends BasicRectangularBox implements RectangularBox, Truck {
 
