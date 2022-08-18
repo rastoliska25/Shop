@@ -2,6 +2,7 @@ package com.learn2code.shop;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
+import org.apache.log4j.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -18,5 +19,7 @@ public class ShopApplication {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(ShopApplication.class);
 		builder.headless(false);
 		ConfigurableApplicationContext context = builder.run(args);
+
+		Logging.setAppender(); //nastavenie loggera
 	}
 }

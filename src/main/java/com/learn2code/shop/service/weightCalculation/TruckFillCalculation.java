@@ -1,5 +1,6 @@
 package com.learn2code.shop.service.weightCalculation;
 
+import com.learn2code.shop.Logging;
 import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
@@ -34,12 +35,12 @@ public class TruckFillCalculation {
 
     public List<Statue> calculate() {
 
-        System.out.println("Kapacita: " + capacity);
-        System.out.println("\nPocet vsetkych soch: " + statues.size());
+        Logging.logger.info("Kapacita: " + capacity);
+        Logging.logger.info("\nPocet vsetkych soch: " + statues.size());
 
 
         memoization(capacity);//vypocet pre najlepsi vyber
-        System.out.println("\n");
+        Logging.logger.info("\n");
         navratSochDoKafky(statues);
 
         return  (statueList);//navrat soch ktore su vybrane do trucku
@@ -66,9 +67,9 @@ public class TruckFillCalculation {
                 });
 
         //všetky sochy:
-        System.out.println("\nVsetky sochy:");
+        Logging.logger.info("\nVsetky sochy:");
         vypisSoch(statues);
-        System.out.println("\nHmotnost vsetkych soch dokopy: " + statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum() + "\n");
+        Logging.logger.info("\nHmotnost vsetkych soch dokopy: " + statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum() + "\n");
 
         //výpis vybraných sôch
         int res = matrix[NB_ITEMS][capacity];
@@ -84,7 +85,7 @@ public class TruckFillCalculation {
             }
         }
 
-        System.out.println("\nVybrane sochy:");
+        Logging.logger.info("\nVybrane sochy:");
         vypisSoch(statueList);
 
         long sumOfSelectedStatues = statueList.stream()
@@ -92,10 +93,10 @@ public class TruckFillCalculation {
                 .mapToLong(Long::longValue)
                 .sum();
 
-        System.out.println("\nSuma vybranych soch:" + sumOfSelectedStatues);
-        System.out.println("\nSochy na produce:");
+        Logging.logger.info("\nSuma vybranych soch:" + sumOfSelectedStatues);
+        Logging.logger.info("\nSochy na produce:");
         vypisSoch(statues);
-        System.out.println("\nPublished sochy:");
+        Logging.logger.info("\nPublished sochy:");
 
         return sumOfSelectedStatues;
     }
@@ -108,7 +109,7 @@ public class TruckFillCalculation {
     void navratSochDoKafky(List<Statue> statues) {
         statues.forEach(
                 (statue) -> {
-                    System.out.println("Published statue " + statue);
+                    Logging.logger.info("Published statue " + statue);
                     kafkaTemplate.send(TOPIC, statue);
                 });
     }

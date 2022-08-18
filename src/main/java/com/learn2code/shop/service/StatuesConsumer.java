@@ -1,5 +1,7 @@
 package com.learn2code.shop.service;
 
+import com.learn2code.shop.Logging;
+import com.learn2code.shop.ShopApplication;
 import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
@@ -66,7 +68,7 @@ public class StatuesConsumer {
                 ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(300));
 
                 for (ConsumerRecord<String, Statue> record : records) {
-                    System.out.println("consumed through poll:" + record.value());
+                    Logging.logger.info("consumed through poll:" + record.value());
                     statues.add(record.value());
                 }
             } finally {
@@ -80,12 +82,12 @@ public class StatuesConsumer {
             truckWithHighestTransportWeight.setUsed((byte) 1);
             truckRepository.save(truckWithHighestTransportWeight);
 
-            System.out.println("\n");
-            System.out.println("Trucky k dispozicii: ");
+            Logging.logger.info("\n");
+            Logging.logger.info("Trucky k dispozicii: ");
             trucks.forEach(
                     System.out::println);
 
-            System.out.println("\nTruck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
+            Logging.logger.info("\nTruck s najvacsou prepravnou hmotnostou: " + truckWithHighestTransportWeight + "\n");
             capacity = truckWithHighestTransportWeight.getTransportWeight();
 
 
@@ -105,7 +107,7 @@ public class StatuesConsumer {
             new TruckPacker().packuj(truckWithHighestTransportWeight, statues);
 
         } else
-            System.out.println("There is no truck available!");
+            Logging.logger.info("There is no truck available!");
     }
 
     //ulozenie do db

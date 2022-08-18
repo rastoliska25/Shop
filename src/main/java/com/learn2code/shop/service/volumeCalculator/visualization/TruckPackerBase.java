@@ -1,5 +1,6 @@
 package com.learn2code.shop.service.volumeCalculator.visualization;
 
+import com.learn2code.shop.Logging;
 import com.learn2code.shop.service.volumeCalculator.PackItemResult;
 import com.learn2code.shop.service.volumeCalculator.interfaces.Element;
 import com.learn2code.shop.service.volumeCalculator.interfaces.PackingTool;
@@ -20,8 +21,8 @@ public abstract class TruckPackerBase extends DrawingRectangleBase {
             this.drawing.setStyl(i, "color: 0x" + randomFarba() + ", wireframe: false");
         }
 
-        System.out.println(packer);
-        System.out.println(result);
+        Logging.logger.info(packer);
+        Logging.logger.info(result);
     }
 
     private String randomFarba() {
@@ -29,5 +30,4 @@ public abstract class TruckPackerBase extends DrawingRectangleBase {
 
         return randomInteger.toString(16);
     }
-
 }

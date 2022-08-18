@@ -1,5 +1,6 @@
 package com.learn2code.shop.service.areaCalculator;
 
+import com.learn2code.shop.Logging;
 import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -36,7 +37,7 @@ public class TruckAreaFillCalculator {
                 (statue) -> {
                     if (statue.getLength() >= statue.getWidth()) {
                         if (testPack.insert(Math.toIntExact(statue.getWidth()), Math.toIntExact(statue.getLength()), block) == null) {
-                            System.out.println("nepreslo" + statue);
+                            Logging.logger.info("nepreslo" + statue);
                             statuesToProduceBack.add(statue);
                         } else {
                             System.out.println("preslo" + statue);
@@ -44,10 +45,10 @@ public class TruckAreaFillCalculator {
                         }
                     } else {
                         if (testPack.insert(Math.toIntExact(statue.getLength()), Math.toIntExact(statue.getWidth()), block) == null) {
-                            System.out.println("nepreslo" + statue);
+                            Logging.logger.info("nepreslo" + statue);
                             statuesToProduceBack.add(statue);
                         } else {
-                            System.out.println("preslo" + statue);
+                            Logging.logger.info("preslo" + statue);
                             statuesToInsert.add(statue);
                         }
                     }
@@ -66,7 +67,7 @@ public class TruckAreaFillCalculator {
     void navratSochDoKafky(List<Statue> statues) {
         statues.forEach(
                 (statue) -> {
-                    System.out.println("Published statue " + statue);
+                    Logging.logger.info("Published statue " + statue);
                     kafkaTemplate.send(TOPIC, statue);
                 });
     }
