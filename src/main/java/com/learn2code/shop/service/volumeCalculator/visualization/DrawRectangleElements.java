@@ -11,6 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @license
+ * Copyright 2010-2022 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */
+
 public class DrawRectangleElements {
 
     private final List<RectangularBox> rectangularBoxes = new ArrayList<>();
