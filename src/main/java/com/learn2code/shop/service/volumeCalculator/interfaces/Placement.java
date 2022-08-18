@@ -5,8 +5,6 @@ import java.util.Set;
 
 public interface Placement extends RectangularBox {
 
-    RectangularBox rodic();
-
     Set<Placement> dieta();
 
     Element element();

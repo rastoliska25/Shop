@@ -38,11 +38,6 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
     }
 
     @Override
-    public RectangularBox rodic() {
-        return this.rodic;
-    }
-
-    @Override
     public Set<Placement> dieta() {
         return Set.copyOf(this.dieta);
     }

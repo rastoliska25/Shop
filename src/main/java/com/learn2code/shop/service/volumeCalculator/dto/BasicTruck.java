@@ -11,14 +11,4 @@ public class BasicTruck extends BasicRectangularBox implements RectangularBox, T
         super(sirka, vyska, dlzka);
     }
 
-    public BasicTruck(final Truck truck) {
-        super(truck);
-        this.meno = truck.meno();
-    }
-
-    @Override
-    public String meno() {
-        return this.meno;
-    }
-    
 }

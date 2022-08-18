@@ -10,13 +10,4 @@ public class BasicElement extends BasicRectangularBox implements Element {
         super(sirkaS, vyskaS, dlzkaS);
     }
 
-    public BasicElement(final Element element) {
-        super(element);
-        this.meno = element.meno();
-    }
-
-    @Override
-    public String meno() {
-        return this.meno;
-    }
 }

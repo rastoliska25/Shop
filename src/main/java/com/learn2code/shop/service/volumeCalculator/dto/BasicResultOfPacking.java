@@ -34,11 +34,6 @@ public class BasicResultOfPacking implements ResultOfPacking {
     }
 
     @Override
-    public int celkovyObjem() {
-        return this.celkovyObjem;
-    }
-
-    @Override
     public String toString() {
 
         StringBuilder s = new StringBuilder();
