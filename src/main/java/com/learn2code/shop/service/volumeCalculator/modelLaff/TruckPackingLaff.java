@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TruckPackingLaff extends BasicPackingTool {
+public class TruckPackingLaff implements PackingTool {
 
-    private final BasicTruckStatus containerState;
+    private final BasicTruckStatus truckStatus;
 
     public TruckPackingLaff(final Truck truck) {
         super();
-        this.containerState = new BasicTruckStatus(
+        this.truckStatus = new BasicTruckStatus(
                 truck,
                 new PlacementStatuesLaff(truck)
         );
@@ -29,7 +29,7 @@ public class TruckPackingLaff extends BasicPackingTool {
 
     @Override
     public TruckStatus status() {
-        return this.containerState;
+        return this.truckStatus;
     }
 
     @Override
@@ -51,23 +51,23 @@ public class TruckPackingLaff extends BasicPackingTool {
     @Override
     public PackItemResult pridat(final Element element) {
 
-        if (!element.vojdeDnu(this.containerState.truck()))
+        if (!element.vojdeDnu(this.truckStatus.truck()))
             return PackItemResult.NevojdeSa;
 
-        var placement = this.findPlacement(
-                this.containerState.zakladneUlozenie(),
+        var placement = this.najdiMiesto(
+                this.truckStatus.zakladneUlozenie(),
                 element
         );
         if (placement == null)
             return PackItemResult.NevojdeSaMaloMiesta;
 
         placement.setElement(element);
-        this.containerState.pridajElement(element);
+        this.truckStatus.pridajElement(element);
 
         return PackItemResult.Uspesne;
     }
 
-    protected Placement findPlacement(final Placement placement, final Element element) {
+    protected Placement najdiMiesto(final Placement placement, final Element element) {
 
         if (placement.element() == null)
             return placement;
@@ -77,7 +77,7 @@ public class TruckPackingLaff extends BasicPackingTool {
             return remainder;
 
         for (var child : placement.dieta()) {
-            var childMatch = this.findPlacement(child, element);
+            var childMatch = this.najdiMiesto(child, element);
             if (childMatch != null)
                 return childMatch;
         }

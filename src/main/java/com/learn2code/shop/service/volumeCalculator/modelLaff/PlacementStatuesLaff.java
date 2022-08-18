@@ -12,24 +12,24 @@ import java.util.Set;
 
 public class PlacementStatuesLaff extends BasicRectangularBox implements RectangularBox, Placement {
 
-    private final RectangularBox parent;
+    private final RectangularBox rodic;
     private Element element;
 
-    private final Set<PlacementStatuesLaff> children = new HashSet<>();
+    private final Set<PlacementStatuesLaff> dieta = new HashSet<>();
 
-    private final Set<PlacementStatuesLaff> remainders = new HashSet<>();
+    private final Set<PlacementStatuesLaff> zvysne = new HashSet<>();
 
-    private PlacementStatuesLaff(final RectangularBox parent, final RectangularBox positionAndDimension) {
+    private PlacementStatuesLaff(final RectangularBox rodic, final RectangularBox positionAndDimension) {
 
         super(positionAndDimension);
-        this.parent = parent;
+        this.rodic = rodic;
 
         //No item added so far: Whole place remains
-        this.remainders.add(this);
+        this.zvysne.add(this);
     }
 
-    public PlacementStatuesLaff(final RectangularBox parent) {
-        this(parent, parent);
+    public PlacementStatuesLaff(final RectangularBox rodic) {
+        this(rodic, rodic);
     }
 
     @Override
@@ -39,12 +39,12 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
 
     @Override
     public RectangularBox rodic() {
-        return this.parent;
+        return this.rodic;
     }
 
     @Override
     public Set<Placement> dieta() {
-        return Set.copyOf(this.children);
+        return Set.copyOf(this.dieta);
     }
 
     public void setElement(final Element element) {
@@ -61,9 +61,9 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
         );
 
 
-        this.remainders.clear();
+        this.zvysne.clear();
 
-        this.addRemainder(new BasicRectangularBox(
+        this.pridajZvysne(new BasicRectangularBox(
                 element.sirka() + element.sirkaS() / 2 + (this.sirkaS() - element.sirkaS()) / 2,
                 element.vyska(),
                 this.dlzka(),
@@ -72,7 +72,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
                 this.dlzkaS()
         ));
 
-        this.addRemainder(new BasicRectangularBox(
+        this.pridajZvysne(new BasicRectangularBox(
                 this.sirka(),
                 element.vyska() + element.vyskaS() / 2 + (this.vyskaS() - element.vyskaS()) / 2,
                 this.dlzka(),
@@ -81,7 +81,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
                 this.dlzkaS()
         ));
 
-        this.addRemainder(new BasicRectangularBox(
+        this.pridajZvysne(new BasicRectangularBox(
                 element.sirka() + element.sirkaS() / 2 + (this.sirkaS() - element.sirkaS()) / 2,
                 this.vyska(),
                 this.dlzka(),
@@ -90,7 +90,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
                 this.dlzkaS()
         ));
 
-        this.addRemainder(new BasicRectangularBox(
+        this.pridajZvysne(new BasicRectangularBox(
                 element.sirka(),
                 element.vyska() + element.vyskaS() / 2 + (this.vyskaS() - element.vyskaS()) / 2,
                 this.dlzka(),
@@ -99,7 +99,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
                 this.dlzkaS()
         ));
 
-        this.addRemainder(new BasicRectangularBox(
+        this.pridajZvysne(new BasicRectangularBox(
                 element.sirka(),
                 element.vyska(),
                 this.dlzka() + element.dlzkaS() / 2,
@@ -108,7 +108,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
                 this.dlzkaS() - element.dlzkaS()
         ));
 
-        this.addRemainder(new BasicRectangularBox(
+        this.pridajZvysne(new BasicRectangularBox(
                 element.sirka() + element.sirkaS() / 2 + (this.sirkaS() - element.sirkaS()) / 2,
                 element.vyska() + element.vyskaS() / 2 + (this.vyskaS() - element.vyskaS()) / 2,
                 this.dlzka(),
@@ -118,18 +118,14 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
         ));
 
 
-        if (this.parent != null && this.parent instanceof PlacementStatuesLaff) {
+        if (this.rodic != null && this.rodic instanceof PlacementStatuesLaff parentPlacement) {
 
-            var parentPlacement = (PlacementStatuesLaff) this.parent;
+            parentPlacement.dieta.add(this);
 
-            //Add this to children of parent.
-            parentPlacement.children.add(this);
-
-            //Remove remainders from parent that intersect with remainders from this
-            var iterator = parentPlacement.remainders.iterator();
+            var iterator = parentPlacement.zvysne.iterator();
             while (iterator.hasNext()) {
                 var parentRemainder = iterator.next();
-                for (var remainder : this.remainders) {
+                for (var remainder : this.zvysne) {
                     if (remainder.pretina(parentRemainder)) {
                         iterator.remove();
                         break;
@@ -139,25 +135,24 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
         }
     }
 
-    private void addRemainder(final RectangularBox rectangularBox) {
+    private void pridajZvysne(final RectangularBox rectangularBox) {
 
         if (rectangularBox.sirkaS() == 0 || rectangularBox.vyskaS() == 0 || rectangularBox.dlzkaS() == 0)
             return;
 
-        for (var existing : this.remainders) {
+        for (var existing : this.zvysne) {
             if (rectangularBox.pozicieSaRovnaju(existing) && rectangularBox.dimenzieSaRovnaju(existing))
                 return;
         }
 
         var placement = new PlacementStatuesLaff(this, rectangularBox);
-        this.remainders.add(placement);
+        this.zvysne.add(placement);
 
-        //System.out.println("Add remainder to " + this + "\n\t+" + box);
     }
 
     @Override
     public List<Placement> zvysne() {
-        return List.copyOf(this.remainders);
+        return List.copyOf(this.zvysne);
     }
 
     @Override
@@ -168,7 +163,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
         PlacementStatuesLaff best = null;
         double bestScore = 0;
 
-        for (var remainder : this.remainders) {
+        for (var remainder : this.zvysne) {
             if (rectangularBox.vojdeDnu(remainder)) {
 
                 // Consider better if box uses more space on x- or y-axis
@@ -194,7 +189,7 @@ public class PlacementStatuesLaff extends BasicRectangularBox implements Rectang
         if (this.element == element)
             return this;
 
-        for (var child : this.children) {
+        for (var child : this.dieta) {
             var placement = child.najdiMiesto(element);
             if (placement != null)
                 return placement;
