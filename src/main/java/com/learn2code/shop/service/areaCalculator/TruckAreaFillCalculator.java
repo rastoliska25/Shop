@@ -40,7 +40,7 @@ public class TruckAreaFillCalculator {
                             Logging.logger.info("nepreslo" + statue);
                             statuesToProduceBack.add(statue);
                         } else {
-                            System.out.println("preslo" + statue);
+                            Logging.logger.info("preslo" + statue);
                             statuesToInsert.add(statue);
                         }
                     } else {

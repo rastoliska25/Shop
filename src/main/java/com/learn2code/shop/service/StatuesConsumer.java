@@ -6,7 +6,9 @@ import com.learn2code.shop.db.repository.StatueRepository;
 import com.learn2code.shop.db.repository.TruckRepository;
 import com.learn2code.shop.domain.Statue;
 import com.learn2code.shop.domain.Truck;
+import com.learn2code.shop.service.areaCalculator.TruckAreaFillCalculator;
 import com.learn2code.shop.service.volumeCalculator.visualization.TruckPacker;
+import com.learn2code.shop.service.weightCalculation.TruckFillCalculation;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -91,7 +93,6 @@ public class StatuesConsumer {
             capacity = truckWithHighestTransportWeight.getTransportWeight();
 
 
-            /* //vypnute pre test 3D
             //hmotnosti
             TruckFillCalculation truckFillCalculation = new TruckFillCalculation(kafkaTemplate, statues, capacity);
             statuesWeightSelection = truckFillCalculation.calculate();
@@ -103,8 +104,9 @@ public class StatuesConsumer {
 
             ulozenieSoch(statuesToInsert, truckWithHighestTransportWeight.getId());
 
-            */
-            new TruckPacker().packuj(truckWithHighestTransportWeight, statues);
+
+            //3D len na test
+            //new TruckPacker().packuj(truckWithHighestTransportWeight, statues);
 
         } else
             Logging.logger.info("There is no truck available!");
