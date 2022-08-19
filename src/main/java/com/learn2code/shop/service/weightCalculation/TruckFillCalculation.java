@@ -35,12 +35,12 @@ public class TruckFillCalculation {
 
     public List<Statue> calculate() {
 
-        Logging.logger.info("Kapacita: " + capacity);
-        Logging.logger.info("\nPocet vsetkych soch: " + statues.size());
+        //Logging.logger.info("Kapacita: " + capacity);
+        //Logging.logger.info("\nPocet vsetkych soch: " + statues.size());
 
 
         memoization(capacity);//vypocet pre najlepsi vyber
-        Logging.logger.info("\n");
+        //Logging.logger.info("\n");
         navratSochDoKafky(statues);
 
         return  (statueList);//navrat soch ktore su vybrane do trucku
@@ -67,9 +67,9 @@ public class TruckFillCalculation {
                 });
 
         //všetky sochy:
-        Logging.logger.info("\nVsetky sochy:");
+        //Logging.logger.info("\nVsetky sochy:");
         vypisSoch(statues);
-        Logging.logger.info("\nHmotnost vsetkych soch dokopy: " + statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum() + "\n");
+        //Logging.logger.info("\nHmotnost vsetkych soch dokopy: " + statues.stream().mapToInt(o -> Math.toIntExact(o.getWeight())).sum() + "\n");
 
         //výpis vybraných sôch
         int res = matrix[NB_ITEMS][capacity];
@@ -85,7 +85,7 @@ public class TruckFillCalculation {
             }
         }
 
-        Logging.logger.info("\nVybrane sochy:");
+        //Logging.logger.info("\nVybrane sochy:");
         vypisSoch(statueList);
 
         long sumOfSelectedStatues = statueList.stream()
@@ -93,10 +93,10 @@ public class TruckFillCalculation {
                 .mapToLong(Long::longValue)
                 .sum();
 
-        Logging.logger.info("\nSuma vybranych soch:" + sumOfSelectedStatues);
-        Logging.logger.info("\nSochy na produce:");
+        //Logging.logger.info("\nSuma vybranych soch:" + sumOfSelectedStatues);
+        //Logging.logger.info("\nSochy na produce:");
         vypisSoch(statues);
-        Logging.logger.info("\nPublished sochy:");
+        //Logging.logger.info("\nPublished sochy:");
 
         return sumOfSelectedStatues;
     }
@@ -109,7 +109,7 @@ public class TruckFillCalculation {
     void navratSochDoKafky(List<Statue> statues) {
         statues.forEach(
                 (statue) -> {
-                    Logging.logger.info("Published statue " + statue);
+                    //Logging.logger.info("Published statue " + statue);
                     kafkaTemplate.send(TOPIC, statue);
                 });
     }

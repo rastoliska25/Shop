@@ -21,8 +21,8 @@ public abstract class TruckPackerBase extends DrawingRectangleBase {
             this.drawing.setStyl(i, "color: 0x" + randomFarba() + ", wireframe: false");
         }
 
-        Logging.logger.info(packer);
-        Logging.logger.info(result);
+        //Logging.logger.info(packer);
+        //Logging.logger.info(result);
     }
 
     private String randomFarba() {

@@ -37,18 +37,18 @@ public class TruckAreaFillCalculator {
                 (statue) -> {
                     if (statue.getLength() >= statue.getWidth()) {
                         if (testPack.insert(Math.toIntExact(statue.getWidth()), Math.toIntExact(statue.getLength()), block) == null) {
-                            Logging.logger.info("nepreslo" + statue);
+                            ///Logging.logger.info("nepreslo" + statue);
                             statuesToProduceBack.add(statue);
                         } else {
-                            Logging.logger.info("preslo" + statue);
+                            //Logging.logger.info("preslo" + statue);
                             statuesToInsert.add(statue);
                         }
                     } else {
                         if (testPack.insert(Math.toIntExact(statue.getLength()), Math.toIntExact(statue.getWidth()), block) == null) {
-                            Logging.logger.info("nepreslo" + statue);
+                            //Logging.logger.info("nepreslo" + statue);
                             statuesToProduceBack.add(statue);
                         } else {
-                            Logging.logger.info("preslo" + statue);
+                            //Logging.logger.info("preslo" + statue);
                             statuesToInsert.add(statue);
                         }
                     }
@@ -67,7 +67,7 @@ public class TruckAreaFillCalculator {
     void navratSochDoKafky(List<Statue> statues) {
         statues.forEach(
                 (statue) -> {
-                    Logging.logger.info("Published statue " + statue);
+                    //Logging.logger.info("Published statue " + statue);
                     kafkaTemplate.send(TOPIC, statue);
                 });
     }
