@@ -1,11 +1,14 @@
 package com.learn2code.shop;
 
+//import org.apache.logging.log4j.*;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Logging {
 
-    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(Logging.class);
+    //public static final Logger logger = LogManager.getLogger(Logging.class);
 
+    public static final Logger logger = LoggerFactory.getLogger(Logging.class);
     /*
     public static final Logger logger = Logger.getLogger(Logger.class);
 

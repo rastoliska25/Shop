@@ -70,7 +70,7 @@ public class StatuesConsumer {
                 ConsumerRecords<String, Statue> records = consumer.poll(Duration.ofMillis(300));
 
                 for (ConsumerRecord<String, Statue> record : records) {
-                    Logging.logger.info("consumed through poll:" + record.value());
+                    Logging.logger.info("consumed through poll: {}", record.value());
                     statues.add(record.value());
                 }
             } finally {

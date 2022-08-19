@@ -19,6 +19,14 @@ public class ShopApplication {
         builder.headless(false);
         ConfigurableApplicationContext context = builder.run(args);
 
-        //Logging.setAppender(); //nastavenie loggera
+        Logging.logger.info("testovanie do suboru consumed through poll: {}", 10000);
+
+        Logging.logger.trace("We've just greeted the user!");
+        Logging.logger.debug("We've just greeted the user!");
+        Logging.logger.info("We've just greeted the user!");
+        Logging.logger.warn("We've just greeted the user!");
+        Logging.logger.error("We've just greeted the user!");
+
+
     }
 }
