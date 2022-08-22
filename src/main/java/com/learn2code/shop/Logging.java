@@ -9,6 +9,7 @@ public class Logging {
     //public static final Logger logger = LogManager.getLogger(Logging.class);
 
     public static final Logger logger = LoggerFactory.getLogger(Logging.class);
+
     /*
     public static final Logger logger = Logger.getLogger(Logger.class);
 

@@ -7,11 +7,17 @@
         <File name="FileAppender" fileName="application-${date:yyyyMMdd}.log" immediateFlush="false" append="true">
             <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </File>
+
+        <Socket name="Socket" host="localhost" port="24224">
+            <JsonLayout compact="true" eventEol="true" />
+        </Socket>
+
     </Appenders>
     <Loggers>
         <Root level="debug">
             <AppenderRef ref="ConsoleAppender" />
             <AppenderRef ref="FileAppender"/>
+            <AppenderRef ref="Socket"/>
         </Root>
     </Loggers>
 </Configuration>

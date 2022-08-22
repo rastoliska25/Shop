@@ -26,7 +26,5 @@ public class ShopApplication {
         Logging.logger.info("We've just greeted the user!");
         Logging.logger.warn("We've just greeted the user!");
         Logging.logger.error("We've just greeted the user!");
-
-
     }
 }
